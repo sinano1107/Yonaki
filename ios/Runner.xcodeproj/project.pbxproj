@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,8 @@
 		3BC5714CDC5CD99A3EFDF6A3 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 490EFDAEA1F2658F8FE18216 /* Pods_Runner.framework */; };
 		4921B33A24B02E7700FC8560 /* UnityFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4921B33924B02E7700FC8560 /* UnityFramework.framework */; };
 		4921B33B24B02E7700FC8560 /* UnityFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4921B33924B02E7700FC8560 /* UnityFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4968BDCF24B1E1DB002F0D96 /* UnityFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4968BDCE24B1E1DB002F0D96 /* UnityFramework.framework */; };
+		4968BDD024B1E1DB002F0D96 /* UnityFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4968BDCE24B1E1DB002F0D96 /* UnityFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
@@ -26,6 +28,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				4921B33B24B02E7700FC8560 /* UnityFramework.framework in Embed Frameworks */,
+				4968BDD024B1E1DB002F0D96 /* UnityFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -38,6 +41,7 @@
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		490EFDAEA1F2658F8FE18216 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4921B33924B02E7700FC8560 /* UnityFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UnityFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4968BDCE24B1E1DB002F0D96 /* UnityFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UnityFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A32BAF3B28F666815079E32 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +64,7 @@
 			files = (
 				4921B33A24B02E7700FC8560 /* UnityFramework.framework in Frameworks */,
 				3BC5714CDC5CD99A3EFDF6A3 /* Pods_Runner.framework in Frameworks */,
+				4968BDCF24B1E1DB002F0D96 /* UnityFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +74,7 @@
 		4921B33824B02E7700FC8560 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4968BDCE24B1E1DB002F0D96 /* UnityFramework.framework */,
 				4921B33924B02E7700FC8560 /* UnityFramework.framework */,
 				490EFDAEA1F2658F8FE18216 /* Pods_Runner.framework */,
 			);
@@ -82,7 +88,6 @@
 				4A32BAF3B28F666815079E32 /* Pods-Runner.release.xcconfig */,
 				A04C459D76D2575A413B4B6F /* Pods-Runner.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
