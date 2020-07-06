@@ -6,6 +6,10 @@
 	<string>カメラを使用します</string>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>あなたの位置情報を使用します</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>あなたの位置情報を使用します</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
