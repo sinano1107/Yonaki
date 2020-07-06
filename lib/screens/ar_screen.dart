@@ -2,8 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:yonaki/screens/walk_screen.dart';
 
-class ARScreen extends StatelessWidget {
+class ARScreen extends StatefulWidget {
   static const String id = 'AR';
+
+  @override
+  _ARScreenState createState() => _ARScreenState();
+}
+
+class _ARScreenState extends State<ARScreen> {
+  UnityWidgetController _unityWidgetController;
+
+  @override
+  void dispose() {
+    super.dispose();
+    print('unityを中止');
+    _unityWidgetController.pause();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +25,7 @@ class ARScreen extends StatelessWidget {
       children: [
         Expanded(
           child: UnityWidget(
-            onUnityViewCreated: (controller) => print('unityが起動されました'),
+            onUnityViewCreated: onUnityCreated,
           ),
           flex: 10,
         ),
@@ -27,5 +41,13 @@ class ARScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void onUnityCreated(controller) {
+    this._unityWidgetController = controller;
+    // unityを再開
+    _unityWidgetController.resume();
+    // シーンを再ロード
+    _unityWidgetController.postMessage('GameDirector', 'Restart', '');
   }
 }
