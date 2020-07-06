@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:yonaki/screens/walk_screen.dart';
 
 class ARScreen extends StatelessWidget {
@@ -6,19 +7,25 @@ class ARScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('AR画面(仮)'),
-            MaterialButton(
-              child: Text('テスト用戻るボタン'),
-              onPressed: () => Navigator.pushReplacementNamed(context, WalkScreen.id),
-            ),
-          ],
+    return Column(
+      children: [
+        Expanded(
+          child: UnityWidget(
+            onUnityViewCreated: (controller) => print('unityが起動されました'),
+          ),
+          flex: 10,
         ),
-      ),
+        Expanded(
+          child: Card(
+            child: MaterialButton(
+              child: Text('テスト用戻るボタン'),
+              onPressed: () =>
+                  Navigator.pushReplacementNamed(context, WalkScreen.id),
+            ),
+          ),
+          flex: 1,
+        ),
+      ],
     );
   }
 }

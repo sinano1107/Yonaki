@@ -53,7 +53,8 @@ class _WalkScreenState extends State<WalkScreen> {
             Text('歩く画面(仮デザイン)'),
             MaterialButton(
               child: Text('テスト用AR起動ボタン'),
-              onPressed: () => Navigator.pushReplacementNamed(context, ARScreen.id),
+              onPressed: () =>
+                  Navigator.pushReplacementNamed(context, ARScreen.id),
             ),
           ],
         ),
@@ -78,7 +79,8 @@ class _WalkScreenState extends State<WalkScreen> {
       final _newLocation = await _getLocation();
       print('今の座標: $_newLocation');
 
-      final _distance = _latLngService.getDistance(data1: _beforeLocation, data2: _newLocation);
+      final _distance = _latLngService.getDistance(
+          data1: _beforeLocation, data2: _newLocation);
       print('移動した距離 $_distance m');
 
       // totalに追加
@@ -88,8 +90,9 @@ class _WalkScreenState extends State<WalkScreen> {
       // 指定メートル以上移動した場合
       if (_total >= _eventDistance) {
         // 立ち止まったまま誤差で稼いだりしていないか確認
-        final first2NowDistance = _latLngService.getDistance(data1: _firstLocation, data2: _newLocation);
-        if (first2NowDistance > _eventDistance/2) {
+        final first2NowDistance = _latLngService.getDistance(
+            data1: _firstLocation, data2: _newLocation);
+        if (first2NowDistance > _eventDistance / 2) {
           print('$_eventDistance m移動しました');
           Navigator.pushReplacementNamed(context, ARScreen.id);
         }
