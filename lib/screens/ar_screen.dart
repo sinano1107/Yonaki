@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:yonaki/screens/walk_screen.dart';
+import 'package:yonaki/services/director_service.dart';
 import 'package:yonaki/services/story_service.dart';
 
 class ARScreen extends StatelessWidget {
   static const String id = 'AR';
+  final _directorService = DirectorService(
+    programList: [
+      '''{"process": "setObject", "object": "Sphere"}''',
+      '''{"process": "setObject", "object": "Cube"}''',
+      '''{"process": "unKnown"}''',
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +31,14 @@ class ARScreen extends StatelessWidget {
                 'まさきくんは\nうんこをしました',
                 'とても気持ち良い脱糞でした。\nあ〜すっきりした〜！！',
               ]),
+            ),
+            MaterialButton(
+              child: Text('テスト用ディレクタースタートボタン'),
+              onPressed: () => _directorService.start(),
+            ),
+            MaterialButton(
+              child: Text('テスト用ディレクターネクストボタン'),
+              onPressed: () => _directorService.next(),
             ),
           ],
         ),
