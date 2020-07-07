@@ -16,6 +16,7 @@ dependencies:
   flutter_unity_widget: ^0.1.6+5
   location: ^3.0.2
   latlong: ^0.6.1
+  animated_text_kit: ^2.2.0
 
 dev_dependencies:
   flutter_test:
