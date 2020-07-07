@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yonaki/screens/walk_screen.dart';
 import 'package:yonaki/services/director_service.dart';
 import 'package:yonaki/services/story_service.dart';
+import 'package:yonaki/services/unity_listener_service.dart';
 
 class ARScreen extends StatelessWidget {
   static const String id = 'AR';
@@ -11,6 +12,9 @@ class ARScreen extends StatelessWidget {
       '''{"process": "setObject", "object": "Cube"}''',
       '''{"process": "unKnown"}''',
     ],
+  );
+  final _unityListenerService = UnityListenerService(
+    next: () => print('次へ移れと言われました'),
   );
 
   @override
@@ -39,6 +43,10 @@ class ARScreen extends StatelessWidget {
             MaterialButton(
               child: Text('テスト用ディレクターネクストボタン'),
               onPressed: () => _directorService.next(),
+            ),
+            MaterialButton(
+              child: Text('テスト用UnityからのNextリクエスト発生ボタン'),
+              onPressed: () => _unityListenerService.listen('next'),
             ),
           ],
         ),
