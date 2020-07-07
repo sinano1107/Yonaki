@@ -73,8 +73,6 @@ class _ARScreenState extends State<ARScreen> {
 
   void onUnityMessage(controller, message) {
     print(message);
-    UnityListenerService(next: () {
-      print('next');
-    });
+    UnityListenerService(next: () => _directorService.next()).listen(message);
   }
 }

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 class StoryService {
-  void showStory(BuildContext context, List<String> stories) {
+  void showStory(BuildContext context, List<dynamic> stories) {
     _showDialog(context, stories, 0);
   }
 
-  void _showDialog(BuildContext context, List<String> stories, int index) {
+  void _showDialog(BuildContext context, List<dynamic> stories, int index) {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: TyperAnimatedTextKit(
-          text: [stories[index]],
+          text: [stories[index].toString()],
           textAlign: TextAlign.center,
           isRepeatingAnimation: false,
         ),
@@ -22,7 +22,7 @@ class StoryService {
     );
   }
 
-  List<Widget> _buildActions(BuildContext context, List<String> stories, int index) {
+  List<Widget> _buildActions(BuildContext context, List<dynamic> stories, int index) {
     final button = stories.length-1 > index
         ? FlatButton(
             child: Text('次へ'),
