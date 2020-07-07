@@ -47,7 +47,7 @@ class _ARScreenState extends State<ARScreen> {
     );
   }
 
-  void onUnityCreated(UnityWidgetController controller, BuildContext context) {
+  void onUnityCreated(UnityWidgetController controller, BuildContext context) async {
     this._unityWidgetController = controller;
     // unityを再開
     _unityWidgetController.resume();
@@ -57,12 +57,15 @@ class _ARScreenState extends State<ARScreen> {
     // ディレクターを生成
     _directorService = DirectorService(
       context: context,
-      unityWidgetController: _unityWidgetController,
+      unityWidgetController: controller,
       programList: [
         '''{"process": "setObject", "name": "Cube"}''',
         '''{"process": "showStory", "stories": ["綺麗なキューブを拾った。", "なぜこんな道端に場違いなキューブがあるのだろう..."]}''',
       ],
     );
+
+    // すぐにディレクターが起動すると正しく動作しないため1秒後に実行
+    await Future.delayed(Duration(seconds: 1));
 
     // ディレクタースタート
     _directorService.start();
