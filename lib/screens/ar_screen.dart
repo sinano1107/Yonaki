@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:yonaki/screens/walk_screen.dart';
+import 'package:yonaki/services/director_service.dart';
+import 'package:yonaki/services/unity_listener_service.dart';
 
 class ARScreen extends StatefulWidget {
   static const String id = 'AR';
@@ -11,6 +13,7 @@ class ARScreen extends StatefulWidget {
 
 class _ARScreenState extends State<ARScreen> {
   UnityWidgetController _unityWidgetController;
+  DirectorService _directorService;
 
   @override
   void dispose() {
@@ -25,7 +28,8 @@ class _ARScreenState extends State<ARScreen> {
       children: [
         Expanded(
           child: UnityWidget(
-            onUnityViewCreated: onUnityCreated,
+            onUnityViewCreated: (controller) => onUnityCreated(controller, context),
+            onUnityMessage: onUnityMessage,
           ),
           flex: 10,
         ),
@@ -43,11 +47,31 @@ class _ARScreenState extends State<ARScreen> {
     );
   }
 
-  void onUnityCreated(controller) {
+  void onUnityCreated(UnityWidgetController controller, BuildContext context) {
     this._unityWidgetController = controller;
     // unityを再開
     _unityWidgetController.resume();
     // シーンを再ロード
     _unityWidgetController.postMessage('GameDirector', 'Restart', '');
+
+    // ディレクターを生成
+    _directorService = DirectorService(
+      context: context,
+      unityWidgetController: _unityWidgetController,
+      programList: [
+        '''{"process": "setObject", "name": "Cube"}''',
+        '''{"process": "showStory", "stories": ["綺麗なキューブを拾った。", "なぜこんな道端に場違いなキューブがあるのだろう..."]}''',
+      ],
+    );
+
+    // ディレクタースタート
+    _directorService.start();
+  }
+
+  void onUnityMessage(controller, message) {
+    print(message);
+    UnityListenerService(next: () {
+      print('next');
+    });
   }
 }

@@ -1,12 +1,18 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:yonaki/services/story_service.dart';
 
 class DirectorService {
+  final BuildContext context;
+  final UnityWidgetController unityWidgetController;
   final List<String> programList;
   int index = 0; // 現在処理している指示のインデックス
 
   DirectorService({
+    @required this.context,
+    @required this.unityWidgetController,
     @required this.programList,
   });
 
@@ -23,10 +29,15 @@ class DirectorService {
 
       // UnityのARオブジェクトを指定
       case 'setObject':
-        print('UnityのARオブジェクト ${program['object']} に指定します');
+        print('UnityのARオブジェクト ${program['name']} に指定します');
+        unityWidgetController.postMessage('GameDirector', 'SetObjectPrefab', program['name']);
         break;
 
-
+      // ストーリーを表示
+      case 'showStory':
+        print('ストーリーを表示します ${program['stories']}');
+        StoryService().showStory(context, program['stories']);
+        break;
 
       // エラー
       default:
