@@ -13,6 +13,7 @@
 		4962259524B440500058B6E0 /* UnityFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F878924B30A7B00B098A3 /* UnityFramework.framework */; };
 		496F878A24B30A7B00B098A3 /* UnityFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F878924B30A7B00B098A3 /* UnityFramework.framework */; };
 		496F878B24B30A7B00B098A3 /* UnityFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 496F878924B30A7B00B098A3 /* UnityFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		49DED85824B452E000F95C72 /* UnityFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F878924B30A7B00B098A3 /* UnityFramework.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
@@ -62,6 +63,7 @@
 				2A5F03310EE58E5CC10E4247 /* Pods_Runner.framework in Frameworks */,
 				496F878A24B30A7B00B098A3 /* UnityFramework.framework in Frameworks */,
 				4962259524B440500058B6E0 /* UnityFramework.framework in Frameworks */,
+				49DED85824B452E000F95C72 /* UnityFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
