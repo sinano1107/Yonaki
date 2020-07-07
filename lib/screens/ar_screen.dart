@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yonaki/screens/walk_screen.dart';
+import 'package:yonaki/services/story_service.dart';
 
 class ARScreen extends StatelessWidget {
   static const String id = 'AR';
@@ -15,6 +16,13 @@ class ARScreen extends StatelessWidget {
             MaterialButton(
               child: Text('テスト用戻るボタン'),
               onPressed: () => Navigator.pushReplacementNamed(context, WalkScreen.id),
+            ),
+            MaterialButton(
+              child: Text('テスト用ダイアログボタン'),
+              onPressed: () => StoryService().showStory(context, [
+                'まさきくんは\nうんこをしました',
+                'とても気持ち良い脱糞でした。\nあ〜すっきりした〜！！',
+              ]),
             ),
           ],
         ),
