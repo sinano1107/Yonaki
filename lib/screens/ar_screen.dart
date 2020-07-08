@@ -18,7 +18,6 @@ class _ARScreenState extends State<ARScreen> {
   @override
   void dispose() {
     super.dispose();
-    print('unityを中止');
     _unityWidgetController.pause();
   }
 
@@ -49,8 +48,6 @@ class _ARScreenState extends State<ARScreen> {
 
   void onUnityCreated(UnityWidgetController controller, BuildContext context) async {
     this._unityWidgetController = controller;
-    // unityを再開
-    _unityWidgetController.resume();
     // シーンを再ロード
     _unityWidgetController.postMessage('GameDirector', 'Restart', '');
 
