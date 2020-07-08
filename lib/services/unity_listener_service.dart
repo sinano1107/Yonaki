@@ -1,11 +1,5 @@
-import 'package:flutter/foundation.dart';
-
 class UnityListenerService {
-  final Function next;
-
-  UnityListenerService({
-    @required this.next,
-  });
+  Function next = () => print('nextを指示されましたが何も設定されていません');
 
   void listen(String message) {
     switch (message) {
@@ -14,7 +8,6 @@ class UnityListenerService {
       case 'next':
         next();
         break;
-
 
       // エラー
       default:

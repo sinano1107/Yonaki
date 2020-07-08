@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:yonaki/models/yonaki_provider.dart';
 import 'package:yonaki/screens/walk_screen.dart';
 import 'package:yonaki/services/director_service.dart';
-import 'package:yonaki/services/unity_listener_service.dart';
 
 class ARScreen extends StatefulWidget {
   static const String id = 'AR';
@@ -12,8 +13,8 @@ class ARScreen extends StatefulWidget {
 }
 
 class _ARScreenState extends State<ARScreen> {
+  YonakiProvider _yonakiProvider;
   UnityWidgetController _unityWidgetController;
-  DirectorService _directorService;
 
   @override
   void dispose() {
@@ -23,12 +24,14 @@ class _ARScreenState extends State<ARScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _yonakiProvider = Provider.of<YonakiProvider>(context);
+
     return Column(
       children: [
         Expanded(
           child: UnityWidget(
-            onUnityViewCreated: (controller) => onUnityCreated(controller, context),
-            onUnityMessage: onUnityMessage,
+            onUnityViewCreated: (controller) =>
+                onUnityCreated(controller, context),
           ),
           flex: 10,
         ),
@@ -46,13 +49,17 @@ class _ARScreenState extends State<ARScreen> {
     );
   }
 
-  void onUnityCreated(UnityWidgetController controller, BuildContext context) async {
+  void onUnityCreated(
+      UnityWidgetController controller, BuildContext context) async {
     this._unityWidgetController = controller;
     // シーンを再ロード
     _unityWidgetController.postMessage('GameDirector', 'Restart', '');
 
+    // すぐにディレクターが起動すると正しく動作しないため1秒後に実行
+    await Future.delayed(Duration(seconds: 1));
+
     // ディレクターを生成
-    _directorService = DirectorService(
+    final directorService = DirectorService(
       context: context,
       unityWidgetController: controller,
       programList: [
@@ -61,15 +68,10 @@ class _ARScreenState extends State<ARScreen> {
       ],
     );
 
-    // すぐにディレクターが起動すると正しく動作しないため1秒後に実行
-    await Future.delayed(Duration(seconds: 1));
-
     // ディレクタースタート
-    _directorService.start();
-  }
+    directorService.start();
 
-  void onUnityMessage(controller, message) {
-    print(message);
-    UnityListenerService(next: () => _directorService.next()).listen(message);
+    // unityListenerのnext関数を変更
+    _yonakiProvider.editUnityListenerNext(() => directorService.next());
   }
 }
