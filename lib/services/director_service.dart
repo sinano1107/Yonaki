@@ -33,6 +33,11 @@ class DirectorService {
         unityWidgetController.postMessage('GameDirector', 'SetObjectPrefab', program['name']);
         break;
 
+      case 'setTrigger':
+        print('NextのTriggerを ${program['trigger']} に設定します');
+        unityWidgetController.postMessage('GameDirector', 'SetTrigger', program['trigger']);
+        break;
+
       // ストーリーを表示
       case 'showStory':
         print('ストーリーを表示します ${program['stories']}');

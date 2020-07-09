@@ -93,6 +93,7 @@ class _ARScreenState extends State<ARScreen> {
       unityWidgetController: controller,
       programList: [
         '''{"process": "setObject", "name": "Cube"}''',
+        '''{"process": "setTrigger", "trigger": "PickUp"}''',
         '''{"process": "showStory", "stories": ["綺麗なキューブを拾った。", "なぜこんな道端に場違いなキューブがあるのだろう..."]}''',
       ],
     );
