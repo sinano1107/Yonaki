@@ -65,6 +65,18 @@ class DirectorService {
             'GameDirector', 'SetChaser', program['tag']);
         break;
 
+      // 追いかけてくるオブジェクトとの当たり判定の距離を設定
+      case 'setCollider':
+        print('チェイサーとの当たり判定の距離を ${program['collider']} に設定します');
+        unityWidgetController.postMessage(
+            'GameDirector', 'SetCollider', program['collider']);
+        break;
+
+      // 次のnextがくるまで待つ
+      case 'await':
+        print('次のnextがくるまで待ちます');
+        break;
+
       // エラー
       default:
         print('未知の処理を受け取りました。問題がないか確認してください\nprogram: $program');

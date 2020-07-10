@@ -94,10 +94,11 @@ class _ARScreenState extends State<ARScreen> {
       programList: [
         '''{"process": "setObject", "name": "Cube"}''',
         '''{"process": "setTrigger", "trigger": "Find"}''',
-        '''{"process": "showStory", "stories": ["なぜこんな道端に場違いなキューブがあるのだろう..."]}''',
+        '''{"process": "showStory", "stories": ["なぜこんな道端にキューブが落ちているのだろう..."]}''',
+        '''{"process": "setCollider", "collider": "0.2"}''',
         '''{"process": "setSpeed", "speed": "30"}''',
         '''{"process": "setChaser", "tag": "Cube"}''',
-        '''{"process": "setTrigger", "trigger": "Caught"}''',
+        '''{"process": "await"}''',
         '''{"process": "showStory", "stories": ["キューブが足に噛み付いた", "とても痛くて耐えられない\\n逃げよう"]}''',
       ],
     );
