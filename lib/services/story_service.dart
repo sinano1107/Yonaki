@@ -12,7 +12,10 @@ class StoryService {
     @required this.visible,
   });
 
-  void showStory(List<dynamic> stories) {
+  Function next = () => print('ストーリーサービスからnextが呼び出されましたが、処理が設定されていません');
+
+  void showStory(List<dynamic> stories, Function newNext) {
+    next = newNext;
     fade();
     _showDialog(stories, 0);
   }
@@ -47,6 +50,7 @@ class StoryService {
             onPressed: () {
               Navigator.pop(context);
               visible();
+              next();
             },
           );
 
