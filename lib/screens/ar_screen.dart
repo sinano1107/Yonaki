@@ -95,7 +95,8 @@ class _ARScreenState extends State<ARScreen> {
         '''{"process": "await"}''', // <= 平面検知してくれるまで待つ
         '''{"process": "setObject", "name": "Cube"}''',
         '''{"process": "createObject", "space": "0"}''',
-        '''{"process": "setTrigger", "trigger": "PickUp"}''',
+        '''{"process": "setTrigger", "trigger": "Find"}''',
+        '''{"process": "destroyObject", "tag": "Cube"}''',
         '''{"process": "showStory", "stories": ["なぜこんな道端にキューブが落ちているのだろう..."]}''',
         '''{"process": "setObject", "name": "Cylinder"}''',
         '''{"process": "createObject", "space": "2"}''',

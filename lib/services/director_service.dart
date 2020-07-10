@@ -46,6 +46,12 @@ class DirectorService {
             'GameDirector', 'CreateObject', program['space']);
         break;
 
+      case 'destroyObject':
+        print('${program['tag']} を削除します');
+        unityWidgetController.postMessage(
+            'GameDirector', 'DestroyObject', program['tag']);
+        break;
+
       case 'setTrigger':
         print('NextのTriggerを ${program['trigger']} に設定します');
         unityWidgetController.postMessage(
