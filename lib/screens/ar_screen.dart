@@ -92,14 +92,20 @@ class _ARScreenState extends State<ARScreen> {
       storyService: _storyService,
       unityWidgetController: controller,
       programList: [
+        '''{"process": "await"}''', // <= 平面検知してくれるまで待つ
         '''{"process": "setObject", "name": "Cube"}''',
-        '''{"process": "setTrigger", "trigger": "Find"}''',
+        '''{"process": "createObject", "space": "0"}''',
+        '''{"process": "setTrigger", "trigger": "PickUp"}''',
         '''{"process": "showStory", "stories": ["なぜこんな道端にキューブが落ちているのだろう..."]}''',
-        '''{"process": "setCollider", "collider": "0.2"}''',
+        '''{"process": "setObject", "name": "Cylinder"}''',
+        '''{"process": "createObject", "space": "2"}''',
+        '''{"process": "setTrigger", "trigger": "Find"}''',
+        '''{"process": "showStory", "stories": ["ヒィっっ", "なんだお前！！"]}''',
+        '''{"process": "setCollider", "collider": "0.5"}''',
         '''{"process": "setSpeed", "speed": "30"}''',
-        '''{"process": "setChaser", "tag": "Cube"}''',
+        '''{"process": "setChaser", "tag": "Cylinder"}''',
         '''{"process": "await"}''',
-        '''{"process": "showStory", "stories": ["キューブが足に噛み付いた", "とても痛くて耐えられない\\n逃げよう"]}''',
+        '''{"process": "showStory", "stories": ["円柱のお化けに襲われた", "キューブの親だったのだろうか(笑)"]}''',
       ],
     );
 

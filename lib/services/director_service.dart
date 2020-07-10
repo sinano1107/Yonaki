@@ -39,6 +39,13 @@ class DirectorService {
             'GameDirector', 'SetObjectPrefab', program['name']);
         break;
 
+      // オブジェクトを生成
+      case 'createObject':
+        print('オブジェクトを ${program['space']} よりも外に生成します');
+        unityWidgetController.postMessage(
+            'GameDirector', 'CreateObject', program['space']);
+        break;
+
       case 'setTrigger':
         print('NextのTriggerを ${program['trigger']} に設定します');
         unityWidgetController.postMessage(
