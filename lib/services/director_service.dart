@@ -85,6 +85,20 @@ class DirectorService {
             'GameDirector', 'SetCollider', program['collider']);
         break;
 
+      // アニメのターゲットを設定
+      case 'setAnimTarget':
+        print('アニメのターゲットを ${program['name']}');
+        unityWidgetController.postMessage(
+          'GameDirector', 'SetAnimTarget', program['name']);
+        break;
+
+      // アニメを設定
+      case 'setAnim':
+        print("アニメを ${program['num']} に設定します");
+        unityWidgetController.postMessage(
+          'GameDirector', 'SetAnim', program['num']);
+        break;
+
       // 次のnextがくるまで待つ
       case 'await':
         print('次のnextがくるまで待ちます');
