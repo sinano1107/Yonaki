@@ -93,23 +93,23 @@ class _ARScreenState extends State<ARScreen> {
       unityWidgetController: controller,
       programList: [
         '''{"process": "await"}''', // <= 平面検知してくれるまで待つ
-        '''{"process": "setObject", "name": "Sphere"}''',
+        '''{"process": "setObject", "name": "Eyeball"}''',
         '''{"process": "createObject", "space": "0"}''',
         '''{"process": "setTrigger", "trigger": "Find"}''',
-        '''{"process": "destroyObject", "tag": "Sphere"}''',
-        '''{"process": "showStory", "stories": ["なんだこの丸いの...", "せや！\\n交番に届けたろ！！"]}''',
+        '''{"process": "destroyObject", "tag": "Eyeball"}''',
+        '''{"process": "showStory", "stories": ["なんだこの目玉、本物かな(笑)", "面白いから持って帰ろう。"]}''',
         '''{"process": "setObject", "name": "Sasuke"}''',
         '''{"process": "createObject", "space": "2"}''',
         '''{"process": "setTrigger", "trigger": "Find"}''',
         '''{"process": "showStory", "stories": ["なんだあいつ"]}''',
         '''{"process": "setCollider", "collider": "0.5"}''',
-        '''{"process": "setSpeed", "speed": "50"}''',
+        '''{"process": "setSpeed", "speed": "25"}''',
         '''{"process": "setAnimTarget", "name": "Sasuke"}''',
         '''{"process": "setAnim", "num": "1"}''',
         '''{"process": "setChaser", "tag": "Sasuke"}''',
         '''{"process": "await"}''',
         '''{"process": "destroyObject", "tag": "Sasuke"}''',
-        '''{"process": "showStory", "stories": ["変な恐竜に襲われた", "あいつの卵だったのかな..."]}''',
+        '''{"process": "showStory", "stories": ["変な恐竜に襲われた", "目玉との関係はよくわからないままだ"]}''',
       ],
     );
 
