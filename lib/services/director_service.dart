@@ -8,12 +8,14 @@ class DirectorService {
   final StoryService storyService;
   final UnityWidgetController unityWidgetController;
   final List<String> programList;
+  final Function finish;
   int index = 0; // 現在処理している指示のインデックス
 
   DirectorService({
     @required this.storyService,
     @required this.unityWidgetController,
     @required this.programList,
+    @required this.finish,
   });
 
   void start() {
@@ -24,8 +26,10 @@ class DirectorService {
     index += 1;
     if (index < programList.length)
       _processing(json.decode(programList[index]));
-    else
+    else {
       print('プログラムが終了しました');
+      finish();
+    }
   }
 
   void _processing(Map<String, dynamic> program) {

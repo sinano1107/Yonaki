@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:location/location.dart';
+import 'package:yonaki/models/yonaki_provider.dart';
 import 'package:yonaki/screens/ar_screen.dart';
 import 'package:yonaki/services/lat_lng_service.dart';
 import 'package:yonaki/parameter.dart';
+import 'package:yonaki/story.dart';
 
 class WalkScreen extends StatefulWidget {
   static const String id = 'walk';
@@ -14,6 +17,7 @@ class WalkScreen extends StatefulWidget {
 }
 
 class _WalkScreenState extends State<WalkScreen> {
+  YonakiProvider _yonakiProvider;
   Location _locationService = Location();
   LatLngService _latLngService = LatLngService();
   final _eventDistance = Parameter.kEventDistance;
@@ -45,6 +49,11 @@ class _WalkScreenState extends State<WalkScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _yonakiProvider = Provider.of<YonakiProvider>(context);
+    // ストーリが表示されていない、もしくはストーリーが終了している場合
+    if (_yonakiProvider.story==null || _yonakiProvider.story.program==null)
+        _yonakiProvider.story = Menasi();
+
     return Scaffold(
       body: Center(
         child: Column(
