@@ -62,6 +62,12 @@ class DirectorService {
             'GameDirector', 'SetTrigger', program['trigger']);
         break;
 
+      case 'toggleShowGauge':
+        print('ゲージの表示を切り替えます');
+        unityWidgetController.postMessage(
+            'GameDirector', 'ToggleShowGauge', '');
+        break;
+
       // ストーリーを表示
       case 'showStory':
         print('ストーリーを表示します ${program['stories']}');

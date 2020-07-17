@@ -21,6 +21,7 @@ class Menasi extends Story {
       '''{"process": "createObject", "space": "3"}''',
       '''{"process": "setTrigger", "trigger": "Find"}''',
       '''{"process": "showStory", "stories": ["なんだあいつ"]}''',
+      '''{"process": "toggleShowGauge"}''',
       '''{"process": "setCollider", "collider": "0.5"}''',
       '''{"process": "setSpeed", "speed": "60"}''',
       '''{"process": "setAnimTarget", "name": "Menasi"}''',
