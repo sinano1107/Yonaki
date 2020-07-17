@@ -14,6 +14,7 @@ class Menasi extends Story {
       '''{"process": "createObject", "space": "0"}''',
       '''{"process": "setTrigger", "trigger": "Find"}''',
       '''{"process": "showStory", "stories": ["なんだこの目玉、本物かな(笑)", "面白いから持って帰ろう。"]}''',
+      '''{"process": "resetGauge"}''',
       '''{"process": "setTrigger", "trigger": "PickUp"}''',
     ],
     [

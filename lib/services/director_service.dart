@@ -50,22 +50,32 @@ class DirectorService {
             'GameDirector', 'CreateObject', program['space']);
         break;
 
+      // オブジェクトを削除
       case 'destroyObject':
         print('${program['tag']} を削除します');
         unityWidgetController.postMessage(
             'GameDirector', 'DestroyObject', program['tag']);
         break;
 
+      // nextのトリガーを設定
       case 'setTrigger':
         print('NextのTriggerを ${program['trigger']} に設定します');
         unityWidgetController.postMessage(
             'GameDirector', 'SetTrigger', program['trigger']);
         break;
 
+      // ゲージの表示切り替え
       case 'toggleShowGauge':
         print('ゲージの表示を切り替えます');
         unityWidgetController.postMessage(
             'GameDirector', 'ToggleShowGauge', '');
+        break;
+
+      // ゲージのリセット
+      case 'resetGauge':
+        print('ゲージをリセットします');
+        unityWidgetController.postMessage(
+            'GameDirector', 'ResetGauge', '');
         break;
 
       // ストーリーを表示
