@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:yonaki/services/story_service.dart';
@@ -79,7 +81,7 @@ class DirectorService {
       // ストーリーを表示
       case 'showStory':
         print('ストーリーを表示します ${program['stories']}');
-        storyService.showStory(program['stories'], () => next());
+        storyService.showStory(json.decode(program['stories']), () => next());
         break;
 
       // 追いかける際のスピードを設定
