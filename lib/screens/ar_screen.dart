@@ -91,7 +91,7 @@ class _ARScreenState extends State<ARScreen> {
     final directorService = DirectorService(
       storyService: _storyService,
       unityWidgetController: controller,
-      programList: ['''{"process": "await"}'''] + _yonakiProvider.story.program,
+      programList: <Map<String, dynamic>>[{"p": "await"}] + _yonakiProvider.story.program,
       finish: () {
         _yonakiProvider.story.next();
         Navigator.pushReplacementNamed(context, WalkScreen.id);

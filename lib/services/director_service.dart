@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:yonaki/services/story_service.dart';
@@ -7,7 +5,7 @@ import 'package:yonaki/services/story_service.dart';
 class DirectorService {
   final StoryService storyService;
   final UnityWidgetController unityWidgetController;
-  final List<String> programList;
+  final List<Map<String, dynamic>> programList;
   final Function finish;
   int index = 0; // 現在処理している指示のインデックス
 
@@ -19,13 +17,13 @@ class DirectorService {
   });
 
   void start() {
-    _processing(json.decode(programList[0]));
+    _processing(programList[0]);
   }
 
   void next() {
     index += 1;
     if (index < programList.length)
-      _processing(json.decode(programList[index]));
+      _processing(programList[index]);
     else {
       print('プログラムが終了しました');
       finish();
@@ -34,7 +32,7 @@ class DirectorService {
 
   void _processing(Map<String, dynamic> program) {
     print('program $program');
-    switch (program['process']) {
+    switch (program['p']) {
 
       // UnityのARオブジェクトを指定
       case 'setObject':
