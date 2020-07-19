@@ -30,7 +30,7 @@ class Menasi extends Story {
       {'p': 'setChaser', 'tag': 'Menasi'},
       {'p': 'await'},
       {'p': 'destroyObject', 'tag': 'Menasi'},
-      {'p': 'showStory', 'stories': ['変な奴におそわれた', '目玉を拾ったから怒ったのだろうか']},
+      {'p': 'showStory', 'stories': '''["変な奴におそわれた", "目玉を拾ったから怒ったのだろうか"]'''},
     ],
   ];
 }
