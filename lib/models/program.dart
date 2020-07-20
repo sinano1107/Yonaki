@@ -40,7 +40,7 @@ class Program {
   }
 
   // このクラスを編集できるWidgetを返す
-  Widget generateWidget() {
+  Widget generateWidget(Function removeMe) {
     List<Widget> paramWidgets = [];
     this.params.forEach((name, param) {
       Widget answer;
@@ -71,7 +71,15 @@ class Program {
       color: Colors.pink,
       child: Column(
         children: <Widget>[
-              Text(this.process),
+              Row(
+                children: [
+                  Text(this.process),
+                  IconButton(
+                    icon: Icon(Icons.remove),
+                    onPressed: () => removeMe(),
+                  ),
+                ],
+              ),
             ] +
             paramWidgets,
       ),

@@ -29,6 +29,7 @@ class _ARScreenState extends State<ARScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ARScreenArgument _arg = ModalRoute.of(context).settings.arguments;
     _yonakiProvider = Provider.of<YonakiProvider>(context);
     _storyService = StoryService(
       context: context,
@@ -44,7 +45,7 @@ class _ARScreenState extends State<ARScreen> {
             duration: Duration(milliseconds: 500),
             child: UnityWidget(
               onUnityViewCreated: (controller) =>
-                  onUnityCreated(controller, context),
+                  onUnityCreated(controller, context, _arg.userProgram),
             ),
           ),
           flex: 10,
@@ -78,8 +79,8 @@ class _ARScreenState extends State<ARScreen> {
     );
   }
 
-  void onUnityCreated(
-      UnityWidgetController controller, BuildContext context) async {
+  void onUnityCreated(UnityWidgetController controller, BuildContext context,
+      List<Map<String, dynamic>> userProgram) async {
     this._unityWidgetController = controller;
     // シーンを再ロード
     _unityWidgetController.postMessage('GameDirector', 'Restart', '');
@@ -91,11 +92,16 @@ class _ARScreenState extends State<ARScreen> {
     final directorService = DirectorService(
       storyService: _storyService,
       unityWidgetController: controller,
-      programList: <Map<String, dynamic>>[{"p": "await"}] + _yonakiProvider.story.program,
-      finish: () {
-        _yonakiProvider.story.next();
-        Navigator.pushReplacementNamed(context, WalkScreen.id);
-      },
+      programList: <Map<String, dynamic>>[
+            {"p": "await"}
+          ] +
+          (userProgram == null ? _yonakiProvider.story.program : userProgram),
+      finish: userProgram == null
+          ? () {
+              _yonakiProvider.story.next();
+              Navigator.pushReplacementNamed(context, WalkScreen.id);
+            }
+          : () => Navigator.pop(context),
     );
 
     // ディレクタースタート
@@ -104,4 +110,10 @@ class _ARScreenState extends State<ARScreen> {
     // unityListenerのnext関数を変更
     _yonakiProvider.editUnityListenerNext(() => directorService.next());
   }
+}
+
+class ARScreenArgument {
+  final List<Map<String, dynamic>> userProgram;
+
+  ARScreenArgument(this.userProgram);
 }

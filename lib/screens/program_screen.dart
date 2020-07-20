@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:yonaki/models/program.dart';
+import 'package:yonaki/screens/ar_screen.dart';
 
-class ProgramScreen extends StatelessWidget {
+class ProgramScreen extends StatefulWidget {
   static const String id = 'program';
 
+  @override
+  _ProgramScreenState createState() => _ProgramScreenState();
+}
+
+class _ProgramScreenState extends State<ProgramScreen> {
   final List<dynamic> programs = [
     SetObject(),
     ShowStory(),
@@ -30,7 +36,13 @@ class ProgramScreen extends StatelessWidget {
 
     programs.forEach((element) {
       answer.add(
-        element.program.generateWidget(),
+        element.program.generateWidget(
+            () {
+              setState(() {
+                programs.remove(element);
+              });
+            },
+        ),
       );
     });
 
@@ -46,6 +58,6 @@ class ProgramScreen extends StatelessWidget {
       );
     });
 
-    print(answer.toString());
+    Navigator.pushNamed(context, ARScreen.id, arguments: ARScreenArgument(answer));
   }
 }

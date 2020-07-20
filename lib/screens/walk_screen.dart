@@ -51,8 +51,8 @@ class _WalkScreenState extends State<WalkScreen> {
   Widget build(BuildContext context) {
     _yonakiProvider = Provider.of<YonakiProvider>(context);
     // ストーリが表示されていない、もしくはストーリーが終了している場合
-    if (_yonakiProvider.story==null || _yonakiProvider.story.program==null)
-        _yonakiProvider.story = Menasi();
+    if (_yonakiProvider.story == null || _yonakiProvider.story.program == null)
+      _yonakiProvider.story = Menasi();
 
     return Scaffold(
       body: Center(
@@ -62,8 +62,9 @@ class _WalkScreenState extends State<WalkScreen> {
             Text('歩く画面(仮デザイン)'),
             MaterialButton(
               child: Text('テスト用AR起動ボタン'),
-              onPressed: () =>
-                  Navigator.pushReplacementNamed(context, ARScreen.id),
+              onPressed: () => Navigator.pushReplacementNamed(
+                  context, ARScreen.id,
+                  arguments: ARScreenArgument(null)),
             ),
           ],
         ),
