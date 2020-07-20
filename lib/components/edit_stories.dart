@@ -57,7 +57,7 @@ class _EditStoriesState extends State<EditStories> {
                     });
                   },
                   dispose: () {
-                    widget.disposed(stories.toString());
+                    widget.disposed(json.encode(stories));
                   },
                 ),
               ),

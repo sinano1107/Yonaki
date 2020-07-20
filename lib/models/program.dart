@@ -67,7 +67,7 @@ class Program {
     });
 
     return Container(
-      width: 200,
+      width: 400,
       color: Colors.pink,
       child: Column(
         children: <Widget>[
