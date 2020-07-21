@@ -40,7 +40,7 @@ class Program {
   }
 
   // このクラスを編集できるWidgetを返す
-  Widget generateWidget(Function removeMe) {
+  Widget generateWidget(Function removeMe, Key key) {
     List<Widget> paramWidgets = [];
     this.params.forEach((name, param) {
       Widget answer;
@@ -67,7 +67,8 @@ class Program {
     });
 
     return Container(
-      width: 400,
+      key: key,
+      width: 300,
       color: Colors.pink,
       child: Column(
         children: <Widget>[

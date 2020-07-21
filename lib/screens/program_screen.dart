@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reorderables/reorderables.dart';
 import 'package:yonaki/models/program.dart';
 import 'package:yonaki/screens/ar_screen.dart';
 
@@ -14,14 +15,26 @@ class _ProgramScreenState extends State<ProgramScreen> {
     SetObject(),
     ShowStory(),
   ];
+  List<Widget> programList;
+
+  @override
+  void initState() {
+    super.initState();
+    _buildProgramList();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
+        child: ReorderableColumn(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: _buildProgramList(),
+          children: programList,
+          onReorder: (int oldIndex, int newIndex) {
+            final row = programs.removeAt(oldIndex);
+            programs.insert(newIndex, row);
+            _buildProgramList();
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -31,22 +44,26 @@ class _ProgramScreenState extends State<ProgramScreen> {
     );
   }
 
-  List<Widget> _buildProgramList() {
+  void _buildProgramList() {
     List<Widget> answer = [];
 
-    programs.forEach((element) {
+    programs.asMap().forEach((index, element) {
       answer.add(
         element.program.generateWidget(
             () {
               setState(() {
-                programs.remove(element);
+                programs.removeAt(index);
+                _buildProgramList();
               });
             },
+            ValueKey(index),
         ),
       );
     });
 
-    return answer;
+    setState(() {
+      programList = answer;
+    });
   }
 
   void _encode() {
@@ -58,6 +75,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
       );
     });
 
+    print(answer);
     Navigator.pushNamed(context, ARScreen.id, arguments: ARScreenArgument(answer));
   }
 }
