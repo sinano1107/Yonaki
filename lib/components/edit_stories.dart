@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:reorderables/reorderables.dart';
 import 'package:yonaki/components/edit_story_sheet.dart';
 
 class EditStories extends StatefulWidget {
@@ -28,7 +29,18 @@ class _EditStoriesState extends State<EditStories> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: _buildStoriesList(context) + [
+      children: [
+        ReorderableColumn(
+          scrollController: ScrollController(),
+          children: _buildStoriesList(context),
+          onReorder: (int oldIndex, int newIndex) {
+            setState(() {
+              final row = stories.removeAt(oldIndex);
+              stories.insert(newIndex, row);
+            });
+            widget.edit(stories);
+          },
+        ),
         MaterialButton(
           child: Icon(Icons.add),
           onPressed: () {
@@ -53,27 +65,27 @@ class _EditStoriesState extends State<EditStories> {
           });
           widget.edit(stories);
         },
-        child: ListTile(
-          title: Text(story),
-          trailing: IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: () => showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              builder: (context) => SingleChildScrollView(
-                child: Container(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context)
-                          .viewInsets
-                          .bottom),
-                  child: EditStorySheet(
-                    story: story,
-                    onChanged: (String newValue) {
-                      setState(() {
-                        stories[index] = newValue;
-                      });
-                    },
-                    dispose: () => widget.edit(stories),
+        child: Card(
+          child: ListTile(
+            title: Text(story),
+            trailing: IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () => showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) => SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: EditStorySheet(
+                      story: story,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          stories[index] = newValue;
+                        });
+                      },
+                      dispose: () => widget.edit(stories),
+                    ),
                   ),
                 ),
               ),
@@ -83,6 +95,6 @@ class _EditStoriesState extends State<EditStories> {
       ));
     });
 
-    return ListTile.divideTiles(context: context, tiles: tiles).toList();
+    return tiles;
   }
 }

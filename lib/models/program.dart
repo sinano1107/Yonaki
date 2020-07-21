@@ -71,20 +71,22 @@ class Program {
     return Container(
       key: key,
       width: 300,
-      color: Colors.pink,
-      child: Column(
-        children: <Widget>[
-              Row(
-                children: [
-                  Text(this.process),
-                  IconButton(
-                    icon: Icon(Icons.remove),
-                    onPressed: () => removeMe(),
-                  ),
-                ],
-              ),
-            ] +
-            paramWidgets,
+      child: Card(
+        color: Colors.pink,
+        child: Column(
+          children: <Widget>[
+                Row(
+                  children: [
+                    Text(this.process),
+                    IconButton(
+                      icon: Icon(Icons.remove),
+                      onPressed: () => removeMe(),
+                    ),
+                  ],
+                ),
+              ] +
+              paramWidgets,
+        ),
       ),
     );
   }
