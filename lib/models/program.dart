@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:yonaki/components/edit_stories.dart';
 import 'package:yonaki/components/program_dropdown.dart';
@@ -50,7 +52,7 @@ class Program {
         param.val = '''["ストーリーを", "表示します"]''';
         answer = EditStories(
           strStories: param.val,
-          disposed: (String newVal) => param.val = newVal,
+          edit: (List<dynamic> stories) => param.val = json.encode(stories),
         );
       } else {
         final keys = param.choice.keys.toList();

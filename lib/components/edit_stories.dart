@@ -5,11 +5,11 @@ import 'package:yonaki/components/edit_story_sheet.dart';
 
 class EditStories extends StatefulWidget {
   final String strStories;
-  final Function disposed;
+  final Function edit;
 
   EditStories({
     @required this.strStories,
-    @required this.disposed,
+    @required this.edit,
   });
 
   @override
@@ -36,29 +36,36 @@ class _EditStoriesState extends State<EditStories> {
     List<Widget> tiles = [];
 
     stories.asMap().forEach((index, story) {
-      tiles.add(ListTile(
-        title: Text(story),
-        trailing: IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: () => showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder: (context) => SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context)
-                        .viewInsets
-                        .bottom),
-                child: EditStorySheet(
-                  story: story,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      stories[index] = newValue;
-                    });
-                  },
-                  dispose: () {
-                    widget.disposed(json.encode(stories));
-                  },
+      tiles.add(Dismissible(
+        key: ValueKey(index),
+        onDismissed: (direction) {
+          setState(() {
+            stories.removeAt(index);
+          });
+          widget.edit(stories);
+        },
+        child: ListTile(
+          title: Text(story),
+          trailing: IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: () => showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context)
+                          .viewInsets
+                          .bottom),
+                  child: EditStorySheet(
+                    story: story,
+                    onChanged: (String newValue) {
+                      setState(() {
+                        stories[index] = newValue;
+                      });
+                    },
+                    dispose: () => widget.edit(stories),
+                  ),
                 ),
               ),
             ),
