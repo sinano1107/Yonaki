@@ -28,7 +28,16 @@ class _EditStoriesState extends State<EditStories> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: _buildStoriesList(context),
+      children: _buildStoriesList(context) + [
+        MaterialButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            setState(() {
+              stories.add("[新規ストーリー]");
+            });
+          },
+        ),
+      ],
     );
   }
 
@@ -37,7 +46,7 @@ class _EditStoriesState extends State<EditStories> {
 
     stories.asMap().forEach((index, story) {
       tiles.add(Dismissible(
-        key: ValueKey(index),
+        key: UniqueKey(),
         onDismissed: (direction) {
           setState(() {
             stories.removeAt(index);
