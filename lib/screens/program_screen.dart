@@ -26,16 +26,65 @@ class _ProgramScreenState extends State<ProgramScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ReorderableColumn(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: programList,
-          onReorder: (int oldIndex, int newIndex) {
-            final row = programs.removeAt(oldIndex);
-            programs.insert(newIndex, row);
-            _buildProgramList();
-          },
-        ),
+      body: Column(
+        children: [
+          Container(
+            height: 150,
+            width: double.infinity,
+            color: Colors.blue,
+            child: Center(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Draggable<dynamic>(
+                      data: SetObject(),
+                      child: Card(child: Text('setObject')),
+                      feedback: Icon(Icons.add),
+                    ),
+                    Draggable<dynamic>(
+                      data: ShowStory(),
+                      child: Card(child: Text('showStory')),
+                      feedback: Icon(Icons.add),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ReorderableColumn(
+                      children: programList,
+                      onReorder: (int oldIndex, int newIndex) {
+                        final row = programs.removeAt(oldIndex);
+                        programs.insert(newIndex, row);
+                        _buildProgramList();
+                      },
+                    ),
+                    DragTarget<dynamic>(
+                      builder: (context, candidateData, rejectedData) {
+                        return Container(
+                          width: 90,
+                          height: 90,
+                          color: Colors.red,
+                        );
+                      },
+                      onAccept: (data) {
+                        programs.add(data);
+                        _buildProgramList();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.description),
@@ -50,13 +99,13 @@ class _ProgramScreenState extends State<ProgramScreen> {
     programs.asMap().forEach((index, element) {
       answer.add(
         element.program.generateWidget(
-            () {
-              setState(() {
-                programs.removeAt(index);
-                _buildProgramList();
-              });
-            },
-            ValueKey(index),
+          () {
+            setState(() {
+              programs.removeAt(index);
+              _buildProgramList();
+            });
+          },
+          ValueKey(index),
         ),
       );
     });
@@ -76,6 +125,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
     });
 
     print(answer);
-    Navigator.pushNamed(context, ARScreen.id, arguments: ARScreenArgument(answer));
+    Navigator.pushNamed(context, ARScreen.id,
+        arguments: ARScreenArgument(answer));
   }
 }
