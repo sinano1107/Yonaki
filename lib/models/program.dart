@@ -19,11 +19,13 @@ class Program {
   final String document;
   final String process;
   final Map<String, Param> params;
+  final Color color;
 
   Program({
     @required this.document,
     @required this.process,
     @required this.params,
+    @required this.color,
   });
 
   // AR画面で動かせる形にencodeする
@@ -72,7 +74,7 @@ class Program {
       key: key,
       width: 300,
       child: Card(
-        color: Colors.pink,
+        color: color,
         child: Column(
           children: <Widget>[
                 Row(
@@ -102,7 +104,7 @@ class Program {
             Expanded(
               flex: 5,
               child: Card(
-                color: Colors.greenAccent,
+                color: color,
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 5,
@@ -164,6 +166,7 @@ class SetObject {
         choice: {'目玉': 'Eyeball', 'めなし': 'Menasi'},
       ),
     },
+    color: Colors.red,
   );
 }
 
@@ -176,5 +179,6 @@ class ShowStory {
         choice: null, // nullだと文字入力ができる
       ),
     },
+    color: Colors.blue,
   );
 }

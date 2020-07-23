@@ -31,7 +31,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
           Container(
             height: 200,
             width: double.infinity,
-            color: Colors.blue,
+            color: Colors.blueGrey,
             child: Padding(
               padding: EdgeInsets.only(top: 30),
               child: SingleChildScrollView(
@@ -47,7 +47,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
               builder: (context, candidateData, rejectedData) {
                 return Center(
                   child: ReorderableColumn(
-                    children: programList,
+                    children: programList + [SizedBox(key: UniqueKey(), height: 50)],
                     onReorder: (int oldIndex, int newIndex) {
                       final row = programs.removeAt(oldIndex);
                       programs.insert(newIndex, row);
