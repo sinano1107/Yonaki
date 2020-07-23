@@ -90,9 +90,70 @@ class Program {
       ),
     );
   }
+
+  Widget generateDrag(dynamic data) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      child: Container(
+        height: 150,
+        width: 190,
+        child: Column(
+          children: [
+            Expanded(
+              flex: 5,
+              child: Card(
+                color: Colors.greenAccent,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 5,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 10),
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          process,
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          document,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Center(
+                child: Draggable<dynamic>(
+                  data: data,
+                  child: Icon(Icons.drag_handle),
+                  feedback: this.generateWidget(null, null),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 //------------------------------------------------------------------------------
+
+final List<dynamic> allProgram = [
+  SetObject(),
+  ShowStory(),
+];
 
 class SetObject {
   Program program = Program(

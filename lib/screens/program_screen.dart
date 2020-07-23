@@ -29,31 +29,21 @@ class _ProgramScreenState extends State<ProgramScreen> {
       body: Column(
         children: [
           Container(
-            height: 150,
+            height: 200,
             width: double.infinity,
             color: Colors.blue,
-            child: Center(
+            child: Padding(
+              padding: EdgeInsets.only(top: 30),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: [
-                    Draggable<dynamic>(
-                      data: SetObject(),
-                      child: Card(child: Text('setObject')),
-                      feedback: Icon(Icons.add),
-                    ),
-                    Draggable<dynamic>(
-                      data: ShowStory(),
-                      child: Card(child: Text('showStory')),
-                      feedback: Icon(Icons.add),
-                    ),
-                  ],
+                  children: _buildDragList(),
                 ),
               ),
             ),
           ),
           Expanded(
-            child: DragTarget(
+            child: DragTarget<dynamic>(
               builder: (context, candidateData, rejectedData) {
                 return Center(
                   child: ReorderableColumn(
@@ -101,6 +91,14 @@ class _ProgramScreenState extends State<ProgramScreen> {
     setState(() {
       programList = answer;
     });
+  }
+
+  List<Widget> _buildDragList() {
+    List<Widget> answer = [];
+    allProgram.forEach((program) {
+      answer.add(program.program.generateDrag(program));
+    });
+    return answer;
   }
 
   void _encode() {
