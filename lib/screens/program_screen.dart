@@ -53,35 +53,23 @@ class _ProgramScreenState extends State<ProgramScreen> {
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ReorderableColumn(
-                      children: programList,
-                      onReorder: (int oldIndex, int newIndex) {
-                        final row = programs.removeAt(oldIndex);
-                        programs.insert(newIndex, row);
-                        _buildProgramList();
-                      },
-                    ),
-                    DragTarget<dynamic>(
-                      builder: (context, candidateData, rejectedData) {
-                        return Container(
-                          width: 90,
-                          height: 90,
-                          color: Colors.red,
-                        );
-                      },
-                      onAccept: (data) {
-                        programs.add(data);
-                        _buildProgramList();
-                      },
-                    ),
-                  ],
-                ),
-              ),
+            child: DragTarget(
+              builder: (context, candidateData, rejectedData) {
+                return Center(
+                  child: ReorderableColumn(
+                    children: programList,
+                    onReorder: (int oldIndex, int newIndex) {
+                      final row = programs.removeAt(oldIndex);
+                      programs.insert(newIndex, row);
+                      _buildProgramList();
+                    },
+                  ),
+                );
+              },
+              onAccept: (data) {
+                programs.add(data);
+                _buildProgramList();
+              },
             ),
           ),
         ],
