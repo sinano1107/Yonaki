@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:quiver/iterables.dart';
 
 import 'package:flutter/material.dart';
 import 'package:yonaki/components/edit_stories.dart';
@@ -151,25 +152,109 @@ class Program {
 }
 
 //------------------------------------------------------------------------------
-
+// すえてのプログラムを入れるリスト
 final List<dynamic> allProgram = [
   SetObject(),
+  CreateObject(),
+  DestroyObject(),
+  SetTrigger(),
+  ToggleShowGauge(),
+  ResetGauge(),
   ShowStory(),
+  SetSpeed(),
+  SetChaser(),
+  SetCollider(),
+  SetAnimTarget(),
+  SetAnim(),
+  Await(),
 ];
 
+// setObject
 class SetObject {
   Program program = Program(
     document: '表示するオブジェクトを設定します',
     process: 'setObject',
     params: {
       'name': Param(
-        choice: {'目玉': 'Eyeball', 'めなし': 'Menasi'},
+        choice: {
+          '目玉': 'Eyeball',
+          '目無し': 'Menasi',
+        },
       ),
     },
-    color: Colors.red,
+    color: Colors.red[100],
   );
 }
 
+// createObject
+class CreateObject {
+  Program program = Program(
+    document: 'setObjectで指定したオブジェクトをランダムに生成します',
+    process: 'createObject',
+    params: {
+      'space': Param(choice: {
+        '0': '0',
+        '1': '1',
+        '2': '2',
+        '3': '3',
+        '4': '4',
+      }),
+    },
+    color: Colors.red[200],
+  );
+}
+
+// destroyObject
+class DestroyObject {
+  Program program = Program(
+    document: '指定のオブジェクトを破壊します',
+    process: 'destroyObject',
+    params: {
+      'tag': Param(choice: {
+        '目玉': 'Eyeball',
+        '目無し': 'Menasi',
+      }),
+    },
+    color: Colors.red[300],
+  );
+}
+
+// setTrigger
+class SetTrigger {
+  Program program = Program(
+    document: '次の処理に移る条件を設定します',
+    process: 'setTrigger',
+    params: {
+      'trigger': Param(choice: {
+        '見つけた時': 'Find',
+        '拾った時': 'PickUp',
+      }),
+    },
+    color: Colors.red[400],
+  );
+}
+
+// toggleShowGauge {
+class ToggleShowGauge {
+  Program program = Program(
+    document: 'ゲージの表示を切り替えます',
+    process: 'toggleShowGauge',
+    params: {},
+    color: Colors.red[500],
+  );
+}
+
+// resetGauge
+class ResetGauge {
+  Program program = Program(
+    document: 'ゲージの値をリセットします',
+    process: 'ResetGauge',
+    params: {},
+    color: Colors.red[600],
+  );
+}
+
+// showStory
 class ShowStory {
   Program program = Program(
     document: 'ストーリーを表示します',
@@ -179,6 +264,103 @@ class ShowStory {
         choice: null, // nullだと文字入力ができる
       ),
     },
-    color: Colors.blue,
+    color: Colors.red[700],
+  );
+}
+
+// setSpeed
+class SetSpeed {
+  Program program = Program(
+    document: 'オブジェクトが追いかけてくるスピードを設定します',
+    process: 'setSpeed',
+    params: {
+      'speed': Param(
+        choice: Map.fromIterable(
+          range(1, 201),
+          key: (e) => '$e %',
+          value: (e) => e.toString(),
+        ),
+      ),
+    },
+    color: Colors.red[800],
+  );
+}
+
+// setChaser
+class SetChaser {
+  Program program = Program(
+    document: '追いかけてくるオブジェクトを設定します',
+    process: 'setChaser',
+    params: {
+      'tag': Param(
+        choice: {
+          '目玉': 'Eyeball',
+          '目無し': 'Menasi',
+        },
+      ),
+    },
+    color: Colors.red[900],
+  );
+}
+
+// setCollider
+class SetCollider {
+  Program program = Program(
+    document: '追いかけてくるオブジェクトとの当たり判定を設定します',
+    process: 'setCollider',
+    params: {
+      'collider': Param(
+        choice: Map.fromIterable(
+          range(1, 101),
+          key: (e) => (e / 100).toString(),
+          value: (e) => (e / 100).toString(),
+        ),
+      ),
+    },
+    color: Colors.blue[100],
+  );
+}
+
+// setAnimTarget
+class SetAnimTarget {
+  Program program = Program(
+    document: 'アニメーションを設定するターゲットのオブジェクトを設定します',
+    process: 'setAnimTarget',
+    params: {
+      'name': Param(
+        choice: {
+          '目玉': 'Eyeball',
+          '目無し': 'Menasi',
+        },
+      ),
+    },
+    color: Colors.blue[200],
+  );
+}
+
+// setAnim
+class SetAnim {
+  Program program = Program(
+    document: 'ターゲットのアニメーションを設定します',
+    process: 'setAnim',
+    params: {
+      'num': Param(
+        choice: {
+          '待つ': '0',
+          '歩く': '1',
+        }
+      ),
+    },
+    color: Colors.blue[300],
+  );
+}
+
+// await
+class Await {
+  Program program = Program(
+    document: 'オブジェクトに捕まるまで待ちます',
+    process: 'await',
+    params: {},
+    color: Colors.blue[400],
   );
 }

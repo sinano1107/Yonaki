@@ -11,10 +11,7 @@ class ProgramScreen extends StatefulWidget {
 }
 
 class _ProgramScreenState extends State<ProgramScreen> {
-  final List<dynamic> programs = [
-    SetObject(),
-    ShowStory(),
-  ];
+  final List<dynamic> programs = [];
   List<Widget> programList;
 
   @override
@@ -109,6 +106,9 @@ class _ProgramScreenState extends State<ProgramScreen> {
         element.program.encode(),
       );
     });
+
+    print('programs $programs');
+    print('programList $programList');
 
     print(answer);
     Navigator.pushNamed(context, ARScreen.id,

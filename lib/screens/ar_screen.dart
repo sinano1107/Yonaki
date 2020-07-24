@@ -58,8 +58,10 @@ class _ARScreenState extends State<ARScreen> {
                 children: <Widget>[
                   MaterialButton(
                     child: Text('テスト用戻るボタン'),
-                    onPressed: () =>
-                        Navigator.pushReplacementNamed(context, WalkScreen.id),
+                    onPressed: _arg.userProgram == null
+                        ? () => Navigator.pushReplacementNamed(
+                            context, WalkScreen.id)
+                        : () => Navigator.pop(context),
                   ),
                   MaterialButton(
                     child: Text('unityWidgetを隠す'),
