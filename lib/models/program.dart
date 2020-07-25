@@ -52,7 +52,8 @@ class Program {
 
       // choiceが空だったら
       if (param.choice == null) {
-        param.val = '''["ストーリーを", "表示します"]''';
+        if (param.val == null)
+          param.val = '''["ストーリーを", "表示します"]''';
         answer = EditStories(
           strStories: param.val,
           edit: (List<dynamic> stories) => param.val = json.encode(stories),
@@ -61,9 +62,15 @@ class Program {
         final keys = param.choice.keys.toList();
         final values = param.choice.values.toList();
 
-        param.val = values[0];
+        if (param.val == null)
+          param.val = values[0];
+
         answer = ProgramDropdown(
           keys: keys,
+          val: param.choice.keys.firstWhere(
+            (k) => param.choice[k] == param.val,
+            orElse: () => null,
+          ), // valからkeyを取得しています
           onChanged: (String newValue) => param.val = param.choice[newValue],
         );
       }
@@ -344,12 +351,10 @@ class SetAnim {
     document: 'ターゲットのアニメーションを設定します',
     process: 'setAnim',
     params: {
-      'num': Param(
-        choice: {
-          '待つ': '0',
-          '歩く': '1',
-        }
-      ),
+      'num': Param(choice: {
+        '待つ': '0',
+        '歩く': '1',
+      }),
     },
     color: Colors.blue[300],
   );

@@ -107,9 +107,6 @@ class _ProgramScreenState extends State<ProgramScreen> {
       );
     });
 
-    print('programs $programs');
-    print('programList $programList');
-
     print(answer);
     Navigator.pushNamed(context, ARScreen.id,
         arguments: ARScreenArgument(answer));

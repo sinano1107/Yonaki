@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class ProgramDropdown extends StatefulWidget {
   final List<String> keys;
+  final String val;
   final Function onChanged;
 
   ProgramDropdown({
     @required this.keys,
+    @required this.val,
     @required this.onChanged,
   });
 
@@ -19,7 +21,7 @@ class _ProgramDropdownState extends State<ProgramDropdown> {
   @override
   void initState() {
     super.initState();
-    dropdownValue = widget.keys[0];
+    dropdownValue = widget.val == null ? widget.keys[0] : widget.val;
   }
 
   @override
