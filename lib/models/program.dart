@@ -170,7 +170,6 @@ final List<dynamic> allProgram = [
   SetSpeed(),
   SetChaser(),
   SetCollider(),
-  SetAnimTarget(),
   SetAnim(),
   Await(),
 ];
@@ -314,35 +313,22 @@ class SetCollider {
   );
 }
 
-// setAnimTarget
-class SetAnimTarget {
-  Program program = Program(
-    document: 'アニメーションを設定するターゲットのオブジェクトを設定します',
-    process: 'setAnimTarget',
-    params: {
-      'name': Param(
-        choice: {
-          '目玉': 'Eyeball',
-          '目無し': 'Menasi',
-        },
-      ),
-    },
-    color: Colors.blue[100],
-  );
-}
-
 // setAnim
 class SetAnim {
   Program program = Program(
-    document: 'ターゲットのアニメーションを設定します',
+    document: 'オブジェクトのアニメーションを設定します',
     process: 'setAnim',
     params: {
+      'name': Param(choice: {
+        '目玉': 'Eyeball',
+        '目無し': 'Menasi',
+      }),
       'num': Param(choice: {
         '待つ': '0',
         '歩く': '1',
       }),
     },
-    color: Colors.blue[200],
+    color: Colors.blue[100],
   );
 }
 
@@ -352,6 +338,6 @@ class Await {
     document: 'オブジェクトに捕まるまで待ちます',
     process: 'await',
     params: {},
-    color: Colors.blue[300],
+    color: Colors.blue[200],
   );
 }

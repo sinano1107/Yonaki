@@ -39,8 +39,8 @@ class DirectorService {
       // オブジェクトを生成
       case 'createObject':
         print('オブジェクト ${program['name']} を ${program['space']} よりも外に生成します');
-        unityWidgetController.postMessage(
-            'GameDirector', 'CreateObject', json.encode({'name': program['name'], 'space': program['space']}));
+        unityWidgetController.postMessage('GameDirector', 'CreateObject',
+            json.encode({'name': program['name'], 'space': program['space']}));
         break;
 
       // オブジェクトを削除
@@ -67,8 +67,7 @@ class DirectorService {
       // ゲージのリセット
       case 'resetGauge':
         print('ゲージをリセットします');
-        unityWidgetController.postMessage(
-            'GameDirector', 'ResetGauge', '');
+        unityWidgetController.postMessage('GameDirector', 'ResetGauge', '');
         break;
 
       // ストーリーを表示
@@ -98,18 +97,11 @@ class DirectorService {
             'GameDirector', 'SetCollider', program['collider']);
         break;
 
-      // アニメのターゲットを設定
-      case 'setAnimTarget':
-        print('アニメのターゲットを ${program['name']}');
-        unityWidgetController.postMessage(
-          'GameDirector', 'SetAnimTarget', program['name']);
-        break;
-
       // アニメを設定
       case 'setAnim':
-        print("アニメを ${program['num']} に設定します");
-        unityWidgetController.postMessage(
-          'GameDirector', 'SetAnim', program['num']);
+        print("${program['name']} のアニメを ${program['num']} に設定します");
+        unityWidgetController.postMessage('GameDirector', 'SetAnim',
+            jsonEncode({'name': program['name'], 'num': program['num']}));
         break;
 
       // 次のnextがくるまで待つ
