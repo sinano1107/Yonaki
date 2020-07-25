@@ -161,7 +161,6 @@ class Program {
 //------------------------------------------------------------------------------
 // すえてのプログラムを入れるリスト
 final List<dynamic> allProgram = [
-  SetObject(),
   CreateObject(),
   DestroyObject(),
   SetTrigger(),
@@ -176,29 +175,16 @@ final List<dynamic> allProgram = [
   Await(),
 ];
 
-// setObject
-class SetObject {
-  Program program = Program(
-    document: '表示するオブジェクトを設定します',
-    process: 'setObject',
-    params: {
-      'name': Param(
-        choice: {
-          '目玉': 'Eyeball',
-          '目無し': 'Menasi',
-        },
-      ),
-    },
-    color: Colors.red[100],
-  );
-}
-
 // createObject
 class CreateObject {
   Program program = Program(
-    document: 'setObjectで指定したオブジェクトをランダムに生成します',
+    document: 'オブジェクトを生成します',
     process: 'createObject',
     params: {
+      'name': Param(choice: {
+        '目玉': 'Eyeball',
+        '目無し': 'Menasi',
+      }),
       'space': Param(choice: {
         '0': '0',
         '1': '1',
@@ -207,7 +193,7 @@ class CreateObject {
         '4': '4',
       }),
     },
-    color: Colors.red[200],
+    color: Colors.red[100],
   );
 }
 
@@ -222,7 +208,7 @@ class DestroyObject {
         '目無し': 'Menasi',
       }),
     },
-    color: Colors.red[300],
+    color: Colors.red[200],
   );
 }
 
@@ -237,7 +223,7 @@ class SetTrigger {
         '拾った時': 'PickUp',
       }),
     },
-    color: Colors.red[400],
+    color: Colors.red[300],
   );
 }
 
@@ -247,7 +233,7 @@ class ToggleShowGauge {
     document: 'ゲージの表示を切り替えます',
     process: 'toggleShowGauge',
     params: {},
-    color: Colors.red[500],
+    color: Colors.red[400],
   );
 }
 
@@ -257,7 +243,7 @@ class ResetGauge {
     document: 'ゲージの値をリセットします',
     process: 'ResetGauge',
     params: {},
-    color: Colors.red[600],
+    color: Colors.red[500],
   );
 }
 
@@ -271,7 +257,7 @@ class ShowStory {
         choice: null, // nullだと文字入力ができる
       ),
     },
-    color: Colors.red[700],
+    color: Colors.red[600],
   );
 }
 
@@ -289,7 +275,7 @@ class SetSpeed {
         ),
       ),
     },
-    color: Colors.red[800],
+    color: Colors.red[700],
   );
 }
 
@@ -306,7 +292,7 @@ class SetChaser {
         },
       ),
     },
-    color: Colors.red[900],
+    color: Colors.red[800],
   );
 }
 
@@ -324,7 +310,7 @@ class SetCollider {
         ),
       ),
     },
-    color: Colors.blue[100],
+    color: Colors.red[900],
   );
 }
 
@@ -341,7 +327,7 @@ class SetAnimTarget {
         },
       ),
     },
-    color: Colors.blue[200],
+    color: Colors.blue[100],
   );
 }
 
@@ -356,7 +342,7 @@ class SetAnim {
         '歩く': '1',
       }),
     },
-    color: Colors.blue[300],
+    color: Colors.blue[200],
   );
 }
 
@@ -366,6 +352,6 @@ class Await {
     document: 'オブジェクトに捕まるまで待ちます',
     process: 'await',
     params: {},
-    color: Colors.blue[400],
+    color: Colors.blue[300],
   );
 }

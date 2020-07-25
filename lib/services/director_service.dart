@@ -36,18 +36,11 @@ class DirectorService {
     print('program $program');
     switch (program['p']) {
 
-      // UnityのARオブジェクトを指定
-      case 'setObject':
-        print('UnityのARオブジェクト ${program['name']} に指定します');
-        unityWidgetController.postMessage(
-            'GameDirector', 'SetObjectPrefab', program['name']);
-        break;
-
       // オブジェクトを生成
       case 'createObject':
-        print('オブジェクトを ${program['space']} よりも外に生成します');
+        print('オブジェクト ${program['name']} を ${program['space']} よりも外に生成します');
         unityWidgetController.postMessage(
-            'GameDirector', 'CreateObject', program['space']);
+            'GameDirector', 'CreateObject', json.encode({'name': program['name'], 'space': program['space']}));
         break;
 
       // オブジェクトを削除

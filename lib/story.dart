@@ -10,16 +10,14 @@ class Story {
 class Menasi extends Story {
   List<List<Map<String, dynamic>>> _program = [
     [
-      {'p': 'setObject', 'name': 'Eyeball'},
-      {'p': 'createObject', 'space': '0'},
+      {'p': 'createObject', 'name': 'Eyeball', 'space': '0'},
       {'p': 'setTrigger', 'trigger': 'Find'},
       {'p': 'showStory', 'stories': '''["なんだこの目玉、本物かな(笑)", "面白いから持って帰ろう。"]'''},
       {'p': 'resetGauge'},
       {'p': 'setTrigger', 'trigger': 'PickUp'},
     ],
     [
-      {'p': 'setObject', 'name': 'Menasi'},
-      {'p': 'createObject', 'space': '3'},
+      {'p': 'createObject', 'name': 'Menasi', 'space': '3'},
       {'p': 'setTrigger', 'trigger': 'Find'},
       {'p': 'showStory', 'stories': '''["なんだあいつ"]'''},
       {'p': 'toggleShowGauge'},
