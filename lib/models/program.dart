@@ -167,9 +167,7 @@ final List<dynamic> allProgram = [
   ToggleShowGauge(),
   ResetGauge(),
   ShowStory(),
-  SetSpeed(),
-  SetChaser(),
-  SetCollider(),
+  StartChase(),
   SetAnim(),
   Await(),
 ];
@@ -260,29 +258,11 @@ class ShowStory {
   );
 }
 
-// setSpeed
-class SetSpeed {
+// startChase
+class StartChase {
   Program program = Program(
-    document: 'オブジェクトが追いかけてくるスピードを設定します',
-    process: 'setSpeed',
-    params: {
-      'speed': Param(
-        choice: Map.fromIterable(
-          range(1, 201),
-          key: (e) => '$e %',
-          value: (e) => e.toString(),
-        ),
-      ),
-    },
-    color: Colors.red[700],
-  );
-}
-
-// setChaser
-class SetChaser {
-  Program program = Program(
-    document: '追いかけてくるオブジェクトを設定します',
-    process: 'setChaser',
+    document: '追いかけっこを開始します',
+    process: 'startChase',
     params: {
       'tag': Param(
         choice: {
@@ -290,17 +270,13 @@ class SetChaser {
           '目無し': 'Menasi',
         },
       ),
-    },
-    color: Colors.red[800],
-  );
-}
-
-// setCollider
-class SetCollider {
-  Program program = Program(
-    document: '追いかけてくるオブジェクトとの当たり判定を設定します',
-    process: 'setCollider',
-    params: {
+      'speed': Param(
+        choice: Map.fromIterable(
+          range(1, 201),
+          key: (e) => '$e %',
+          value: (e) => e.toString(),
+        ),
+      ),
       'collider': Param(
         choice: Map.fromIterable(
           range(1, 101),
@@ -309,7 +285,7 @@ class SetCollider {
         ),
       ),
     },
-    color: Colors.red[900],
+    color: Colors.red[700],
   );
 }
 
@@ -328,7 +304,7 @@ class SetAnim {
         '歩く': '1',
       }),
     },
-    color: Colors.blue[100],
+    color: Colors.red[800],
   );
 }
 
@@ -338,6 +314,6 @@ class Await {
     document: 'オブジェクトに捕まるまで待ちます',
     process: 'await',
     params: {},
-    color: Colors.blue[200],
+    color: Colors.red[900],
   );
 }

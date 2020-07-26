@@ -76,25 +76,18 @@ class DirectorService {
         storyService.showStory(json.decode(program['stories']), () => next());
         break;
 
-      // 追いかける際のスピードを設定
-      case 'setSpeed':
-        print('追いかけるスピードを ${program['speed']}% に設定します');
+      // 追いかけっこをスタート
+      case 'startChase':
+        print(
+            '${program['tag']} が ${program['speed']}% の速さで追いかけてきます。 当たり判定は ${program['collider']} です');
         unityWidgetController.postMessage(
-            'GameDirector', 'SetSpeed', program['speed']);
-        break;
-
-      // 追いかけてくるオブジェクトを設定
-      case 'setChaser':
-        print('追いかけてくるオブジェクトを ${program['tag']} に設定します');
-        unityWidgetController.postMessage(
-            'GameDirector', 'SetChaser', program['tag']);
-        break;
-
-      // 追いかけてくるオブジェクトとの当たり判定の距離を設定
-      case 'setCollider':
-        print('チェイサーとの当たり判定の距離を ${program['collider']} に設定します');
-        unityWidgetController.postMessage(
-            'GameDirector', 'SetCollider', program['collider']);
+            'GameDirector',
+            'StartChase',
+            json.encode({
+              'tag': program['tag'],
+              'newSpeed': program['speed'],
+              'newCollider': program['collider']
+            }));
         break;
 
       // アニメを設定
