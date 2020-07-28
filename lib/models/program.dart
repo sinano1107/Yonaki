@@ -159,7 +159,13 @@ class Program {
 }
 
 //------------------------------------------------------------------------------
-// すえてのプログラムを入れるリスト
+const _objects = {
+  '目玉': 'Eyeball',
+  '目無し': 'Menasi',
+  '人形': 'Ichimatu',
+};
+
+// すべてのプログラムを入れるリスト
 final List<dynamic> allProgram = [
   CreateObject(),
   DestroyObject(),
@@ -178,10 +184,7 @@ class CreateObject {
     document: 'オブジェクトを生成します',
     process: 'createObject',
     params: {
-      'name': Param(choice: {
-        '目玉': 'Eyeball',
-        '目無し': 'Menasi',
-      }),
+      'name': Param(choice: _objects),
       'space': Param(choice: {
         '0': '0',
         '1': '1',
@@ -200,10 +203,7 @@ class DestroyObject {
     document: '指定のオブジェクトを破壊します',
     process: 'destroyObject',
     params: {
-      'tag': Param(choice: {
-        '目玉': 'Eyeball',
-        '目無し': 'Menasi',
-      }),
+      'tag': Param(choice: _objects),
     },
     color: Colors.red[200],
   );
@@ -265,10 +265,7 @@ class StartChase {
     process: 'startChase',
     params: {
       'tag': Param(
-        choice: {
-          '目玉': 'Eyeball',
-          '目無し': 'Menasi',
-        },
+        choice: _objects,
       ),
       'speed': Param(
         choice: Map.fromIterable(
@@ -295,10 +292,7 @@ class SetAnim {
     document: 'オブジェクトのアニメーションを設定します',
     process: 'setAnim',
     params: {
-      'name': Param(choice: {
-        '目玉': 'Eyeball',
-        '目無し': 'Menasi',
-      }),
+      'name': Param(choice: _objects),
       'num': Param(choice: {
         '待つ': '0',
         '歩く': '1',
