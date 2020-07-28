@@ -23,26 +23,39 @@ class StoryService {
   void _showDialog(List<dynamic> stories, int index) {
     showDialog(
       context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: TyperAnimatedTextKit(
-          text: [stories[index].toString()],
-          textAlign: TextAlign.center,
-          isRepeatingAnimation: false,
-        ),
-        actions: _buildActions(stories, index),
-        backgroundColor: Colors.transparent,
-      ),
+      builder: (BuildContext context) {
+        List<Widget> _actions;
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: TyperAnimatedTextKit(
+                text: [stories[index].toString()],
+                textAlign: TextAlign.center,
+                isRepeatingAnimation: false,
+                onFinished: () {
+                  print('onFinished');
+                  setState(() {
+                    _actions = _buildActions(stories, index);
+                  });
+                },
+              ),
+              actions: _actions,
+              backgroundColor: Colors.transparent,
+            );
+          },
+        );
+      },
       barrierDismissible: false,
     );
   }
 
   List<Widget> _buildActions(List<dynamic> stories, int index) {
-    final button = stories.length-1 > index
+    final button = stories.length - 1 > index
         ? FlatButton(
             child: Text('次へ'),
             onPressed: () {
               Navigator.pop(context);
-              _showDialog(stories, index+1);
+              _showDialog(stories, index + 1);
             },
           )
         : FlatButton(
