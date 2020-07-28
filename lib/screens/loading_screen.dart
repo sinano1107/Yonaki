@@ -39,13 +39,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   children: [
                     MaterialButton(
                       child: Text('歩く画面へ'),
-                      onPressed: () => Navigator.pushReplacementNamed(
-                          context, WalkScreen.id),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, WalkScreen.id),
                     ),
                     MaterialButton(
                       child: Text('プログラム画面へ'),
-                      onPressed: () => Navigator.pushReplacementNamed(
-                          context, ProgramScreen.id),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, ProgramScreen.id),
                     ),
                   ],
                 ),

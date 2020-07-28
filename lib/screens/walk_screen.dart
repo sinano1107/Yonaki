@@ -55,6 +55,9 @@ class _WalkScreenState extends State<WalkScreen> {
       _yonakiProvider.story = getRandomStory();
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('散歩モード'),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

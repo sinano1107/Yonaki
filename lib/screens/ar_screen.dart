@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:yonaki/models/yonaki_provider.dart';
+import 'package:yonaki/screens/post_program_screen.dart';
 import 'package:yonaki/screens/walk_screen.dart';
 import 'package:yonaki/services/director_service.dart';
 import 'package:yonaki/services/story_service.dart';
@@ -37,47 +38,54 @@ class _ARScreenState extends State<ARScreen> {
       visible: () => setState(() => _visible = true),
     );
 
-    return Column(
-      children: [
-        Expanded(
-          child: AnimatedOpacity(
-            opacity: _visible ? 1.0 : 0.0,
-            duration: Duration(milliseconds: 500),
-            child: UnityWidget(
-              onUnityViewCreated: (controller) =>
-                  onUnityCreated(controller, context, _arg.userProgram),
+    return Scaffold(
+      appBar: _arg.userProgram == null
+          ? null
+          : AppBar(
+              title: Text('テスト'),
             ),
-          ),
-          flex: 10,
-        ),
-        Expanded(
-          child: Card(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: <Widget>[
-                  MaterialButton(
-                    child: Text('テスト用戻るボタン'),
-                    onPressed: _arg.userProgram == null
-                        ? () => Navigator.pushReplacementNamed(
-                            context, WalkScreen.id)
-                        : () => Navigator.pop(context),
-                  ),
-                  MaterialButton(
-                    child: Text('unityWidgetを隠す'),
-                    onPressed: () => {
-                      setState(() {
-                        _visible = !_visible;
-                      }),
-                    },
-                  ),
-                ],
+      body: Column(
+        children: [
+          Expanded(
+            child: AnimatedOpacity(
+              opacity: _visible ? 1.0 : 0.0,
+              duration: Duration(milliseconds: 500),
+              child: UnityWidget(
+                onUnityViewCreated: (controller) =>
+                    onUnityCreated(controller, context, _arg.userProgram),
               ),
             ),
+            flex: 10,
           ),
-          flex: 1,
-        ),
-      ],
+          Expanded(
+            child: Card(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: <Widget>[
+                    MaterialButton(
+                      child: Text('テスト用戻るボタン'),
+                      onPressed: _arg.userProgram == null
+                          ? () => Navigator.pushReplacementNamed(
+                              context, WalkScreen.id)
+                          : () => Navigator.pop(context),
+                    ),
+                    MaterialButton(
+                      child: Text('unityWidgetを隠す'),
+                      onPressed: () => {
+                        setState(() {
+                          _visible = !_visible;
+                        }),
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            flex: 1,
+          ),
+        ],
+      ),
     );
   }
 
@@ -103,7 +111,8 @@ class _ARScreenState extends State<ARScreen> {
               _yonakiProvider.story.next();
               Navigator.pushReplacementNamed(context, WalkScreen.id);
             }
-          : () => Navigator.pop(context),
+          : () => Navigator.pushNamed(context, PostProgramScreen.id,
+              arguments: PostProgramScreenArgument(userProgram)),
     );
 
     // ディレクタースタート

@@ -23,19 +23,19 @@ class _ProgramScreenState extends State<ProgramScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('プログラム画面'),
+      ),
       body: Column(
         children: [
           Container(
             height: 200,
             width: double.infinity,
             color: Colors.blueGrey,
-            child: Padding(
-              padding: EdgeInsets.only(top: 30),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: _buildDragList(),
-                ),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: _buildDragList(),
               ),
             ),
           ),
@@ -44,7 +44,8 @@ class _ProgramScreenState extends State<ProgramScreen> {
               builder: (context, candidateData, rejectedData) {
                 return Center(
                   child: ReorderableColumn(
-                    children: programList + [SizedBox(key: UniqueKey(), height: 50)],
+                    children:
+                        programList + [SizedBox(key: UniqueKey(), height: 50)],
                     onReorder: (int oldIndex, int newIndex) {
                       final row = programs.removeAt(oldIndex);
                       programs.insert(newIndex, row);
@@ -63,7 +64,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.description),
-        onPressed: () => _encode(),
+        onPressed: programs.length != 0 ? () => _encode() : null,
       ),
     );
   }
