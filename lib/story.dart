@@ -1,10 +1,28 @@
+import 'dart:math' as math;
+
+dynamic getRandomStory() {
+  var rand = math.Random();
+  dynamic newStory = _stories[rand.nextInt(_stories.length)];
+  // ２回目だった時のためindexをリセット
+  newStory.reset();
+  return newStory;
+}
+
 class Story {
   int _index = 0;
   final List<List<Map<String, dynamic>>> _program = [];
 
   void next() => _index++;
+  void reset() => _index = 0;
   get program => _index < _program.length ? _program[_index] : null;
 }
+
+//------------------------------------------------------------------------------
+
+dynamic _stories = [
+  Menasi(),
+  Ichimatu(),
+];
 
 //-目無し------------------------------------------------------------------------
 class Menasi extends Story {
@@ -50,6 +68,7 @@ class Ichimatu extends Story {
       {'p': 'showStory', 'stories': '''["嘘だろ..."]'''},
       {'p': 'resetGauge'},
       {'p': 'setTrigger', 'trigger': 'Find'},
+      {'p': 'toggleShowGauge'},
       {'p': 'startChase', 'tag': 'Ichimatu', 'speed': '30', 'collider': '0.5'},
       {'p': 'setAnim', 'name': 'Ichimatu', 'num': '1'},
       {'p': 'await'},
