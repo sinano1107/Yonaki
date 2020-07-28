@@ -29,3 +29,32 @@ class Menasi extends Story {
     ],
   ];
 }
+
+//-市松人形----------------------------------------------------------------------
+class Ichimatu extends Story {
+  List<List<Map<String, dynamic>>> _program = [
+    [
+      {'p': 'createObject', 'name': 'Ichimatu', 'space': '0'},
+      {'p': 'showStory', 'stories': '''["近くに何か落ちている..."]'''},
+      {'p': 'setTrigger', 'trigger': 'Find'},
+      {'p': 'showStory', 'stories': '''["気味の悪い人形だな", "放っておこう、"]'''},
+    ],
+    [
+      {'p': 'createObject', 'name': 'Ichimatu', 'space': '0'},
+      {'p': 'setTrigger', 'trigger': 'Find'},
+      {'p': 'showStory', 'stories': '''["また落ちてる......", "ハハっ、、\\nどうせ偶然だよ。。たまたま、"]'''},
+    ],
+    [
+      {'p': 'createObject', 'name': 'Ichimatu', 'space': '1'},
+      {'p': 'setTrigger', 'trigger': 'Find'},
+      {'p': 'showStory', 'stories': '''["嘘だろ..."]'''},
+      {'p': 'resetGauge'},
+      {'p': 'setTrigger', 'trigger': 'Find'},
+      {'p': 'startChase', 'tag': 'Ichimatu', 'speed': '30', 'collider': '0.5'},
+      {'p': 'setAnim', 'name': 'Ichimatu', 'num': '1'},
+      {'p': 'await'},
+      {'p': 'destroyObject', 'tag': 'Ichimatu'},
+      {'p': 'showStory', 'stories': '''["道に落ちている日本人形には気をつけよう..."]'''},
+    ],
+  ];
+}

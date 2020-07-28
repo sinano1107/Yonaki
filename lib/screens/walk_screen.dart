@@ -52,7 +52,7 @@ class _WalkScreenState extends State<WalkScreen> {
     _yonakiProvider = Provider.of<YonakiProvider>(context);
     // ストーリが表示されていない、もしくはストーリーが終了している場合
     if (_yonakiProvider.story == null || _yonakiProvider.story.program == null)
-      _yonakiProvider.story = Menasi();
+      _yonakiProvider.story = Ichimatu();
 
     return Scaffold(
       body: Center(
