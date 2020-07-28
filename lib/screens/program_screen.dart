@@ -110,6 +110,6 @@ class _ProgramScreenState extends State<ProgramScreen> {
 
     print(answer);
     Navigator.pushNamed(context, ARScreen.id,
-        arguments: ARScreenArgument(answer));
+        arguments: ARScreenArgument(userProgram: answer, isLocation: false));
   }
 }

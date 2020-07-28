@@ -20,6 +20,8 @@ dependencies:
   provider: ^4.2.0
   reorderables: ^0.3.2
   quiver: ^2.1.3
+  firebase_core: ^0.4.5
+  cloud_firestore: ^0.13.7
 
 dev_dependencies:
   flutter_test:

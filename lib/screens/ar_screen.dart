@@ -51,8 +51,8 @@ class _ARScreenState extends State<ARScreen> {
               opacity: _visible ? 1.0 : 0.0,
               duration: Duration(milliseconds: 500),
               child: UnityWidget(
-                onUnityViewCreated: (controller) =>
-                    onUnityCreated(controller, context, _arg.userProgram),
+                onUnityViewCreated: (controller) => onUnityCreated(
+                    controller, context, _arg.userProgram, _arg.isLocation),
               ),
             ),
             flex: 10,
@@ -90,7 +90,7 @@ class _ARScreenState extends State<ARScreen> {
   }
 
   void onUnityCreated(UnityWidgetController controller, BuildContext context,
-      List<Map<String, dynamic>> userProgram) async {
+      List<Map<String, dynamic>> userProgram, bool isLocation) async {
     this._unityWidgetController = controller;
     // シーンを再ロード
     _unityWidgetController.postMessage('GameDirector', 'Restart', '');
@@ -111,8 +111,10 @@ class _ARScreenState extends State<ARScreen> {
               _yonakiProvider.story.next();
               Navigator.pushReplacementNamed(context, WalkScreen.id);
             }
-          : () => Navigator.pushNamed(context, PostProgramScreen.id,
-              arguments: PostProgramScreenArgument(userProgram)),
+          : isLocation
+              ? () => Navigator.pop(context)
+              : () => Navigator.pushNamed(context, PostProgramScreen.id,
+                  arguments: PostProgramScreenArgument(userProgram)),
     );
 
     // ディレクタースタート
@@ -125,6 +127,10 @@ class _ARScreenState extends State<ARScreen> {
 
 class ARScreenArgument {
   final List<Map<String, dynamic>> userProgram;
+  final bool isLocation;
 
-  ARScreenArgument(this.userProgram);
+  ARScreenArgument({
+    @required this.userProgram,
+    @required this.isLocation,
+  });
 }

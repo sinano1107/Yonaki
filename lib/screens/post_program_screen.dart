@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostProgramScreen extends StatelessWidget {
   static const String id = 'postProgram';
@@ -12,7 +13,17 @@ class PostProgramScreen extends StatelessWidget {
         title: Text('投稿画面'),
       ),
       body: Center(
-        child: Text(_arg.program.toString()),
+        child: Column(
+          children: [
+            Text(_arg.program.toString()),
+            MaterialButton(
+              child: Text('投稿'),
+              onPressed: () {
+                Firestore.instance.collection('programs').document().setData({'program': _arg.program});
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

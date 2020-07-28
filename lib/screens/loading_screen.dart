@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:yonaki/models/yonaki_provider.dart';
+import 'package:yonaki/screens/location_story_screen.dart';
 import 'package:yonaki/screens/program_screen.dart';
 import 'package:yonaki/screens/walk_screen.dart';
 
@@ -46,6 +47,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
                       child: Text('プログラム画面へ'),
                       onPressed: () =>
                           Navigator.pushNamed(context, ProgramScreen.id),
+                    ),
+                    MaterialButton(
+                      child: Text('ロケーションストーリー'),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, LocationStoryScreen.id),
                     ),
                   ],
                 ),

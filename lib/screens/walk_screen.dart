@@ -67,7 +67,7 @@ class _WalkScreenState extends State<WalkScreen> {
               child: Text('テスト用AR起動ボタン'),
               onPressed: () => Navigator.pushReplacementNamed(
                   context, ARScreen.id,
-                  arguments: ARScreenArgument(null)),
+                  arguments: ARScreenArgument(userProgram: null, isLocation: false)),
             ),
           ],
         ),
