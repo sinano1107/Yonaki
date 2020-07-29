@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:yonaki/services/networking.dart';
-
-const geoAPIURL =
-    'http://geoapi.heartrails.com/api/json?method=searchByGeoLocation';
+import 'package:yonaki/services/address_service.dart';
 
 class PostProgramScreen extends StatefulWidget {
   static const String id = 'postProgram';
@@ -34,19 +31,29 @@ class _PostProgramScreenState extends State<PostProgramScreen> {
     // 現在位置の取得
     _getLocation();
 
+    // 位置情報観測頻度の設定
+    _locationService.changeSettings(
+      distanceFilter: 20,
+    );
+
     // 現在位置の変化を監視
-    _locationChangedListen =
-        _locationService.onLocationChanged.listen((LocationData result) async {
-      setState(() {
-        _yourLocation = result;
-      });
-      if (_controller != null) {
-        _controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target: LatLng(_yourLocation.latitude, _yourLocation.longitude),
-          zoom: 18.0,
-        )));
-      }
-    });
+    _locationChangedListen = _locationService.onLocationChanged.listen(
+      (LocationData result) async {
+        setState(() {
+          _yourLocation = result;
+        });
+        if (_controller != null) {
+          _controller.moveCamera(
+            CameraUpdate.newCameraPosition(
+              CameraPosition(
+                target: LatLng(_yourLocation.latitude, _yourLocation.longitude),
+                zoom: 18.0,
+              ),
+            ),
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -115,9 +122,11 @@ class _PostProgramScreenState extends State<PostProgramScreen> {
         myLocationButtonEnabled: false,
 
         onTap: (newLatLng) {
-          setState(() {
-            _selectedLocation = newLatLng;
-          });
+          setState(
+            () {
+              _selectedLocation = newLatLng;
+            },
+          );
         },
       );
     }
@@ -128,28 +137,25 @@ class _PostProgramScreenState extends State<PostProgramScreen> {
   }
 
   void _postProgram(List<Map<String, dynamic>> program) async {
-    NetworkHelper networkHelper = NetworkHelper(
-        '$geoAPIURL&x=${_selectedLocation.longitude}&y=${_selectedLocation.latitude}');
+    var address = await AddressService()
+        .getAddress(_selectedLocation.latitude, _selectedLocation.longitude);
 
-    var res = await networkHelper.getData();
-    if (res['response']['error'] == null) {
-      // エラーが起こっていない時
-      var address = res['response']['location'][0];
-      print(address);
+    print(address);
 
-      Firestore.instance
-          .collection('stories')
-          .document(address['prefecture'])
-          .collection('cities')
-          .document(address['city'])
-          .setData(
-        {
-          'program': program,
-          'lat': _selectedLocation.latitude,
-          'lng': _selectedLocation.longitude
-        },
-      );
-    }
+    Firestore.instance
+        .collection('allStories')
+        .document(address['prefecture'])
+        .collection('cities')
+        .document(address['city'])
+        .collection('stories')
+        .document()
+        .setData(
+      {
+        'program': program,
+        'lat': _selectedLocation.latitude,
+        'lng': _selectedLocation.longitude
+      },
+    );
   }
 }
 

@@ -264,7 +264,7 @@ class ToggleShowGauge {
 class ResetGauge {
   Program program = Program(
     document: 'ゲージの値をリセットします',
-    process: 'ResetGauge',
+    process: 'resetGauge',
     params: {},
     color: Colors.red[500],
   );
