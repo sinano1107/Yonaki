@@ -67,7 +67,8 @@ class _WalkScreenState extends State<WalkScreen> {
               child: Text('テスト用AR起動ボタン'),
               onPressed: () => Navigator.pushReplacementNamed(
                   context, ARScreen.id,
-                  arguments: ARScreenArgument(userProgram: null, isLocation: false)),
+                  arguments:
+                      ARScreenArgument(userProgram: null, isLocation: false)),
             ),
           ],
         ),
@@ -107,7 +108,9 @@ class _WalkScreenState extends State<WalkScreen> {
             data1: _firstLocation, data2: _newLocation);
         if (first2NowDistance > _eventDistance / 2) {
           print('$_eventDistance m移動しました');
-          Navigator.pushReplacementNamed(context, ARScreen.id);
+          Navigator.pushReplacementNamed(context, ARScreen.id,
+              arguments:
+                  ARScreenArgument(userProgram: null, isLocation: false));
         }
 
         print('立ち止まったままの可能性があります');
