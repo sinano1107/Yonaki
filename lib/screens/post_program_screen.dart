@@ -1,31 +1,155 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+import 'package:yonaki/services/networking.dart';
 
-class PostProgramScreen extends StatelessWidget {
+const geoAPIURL =
+    'http://geoapi.heartrails.com/api/json?method=searchByGeoLocation';
+
+class PostProgramScreen extends StatefulWidget {
   static const String id = 'postProgram';
 
   @override
+  _PostProgramScreenState createState() => _PostProgramScreenState();
+}
+
+class _PostProgramScreenState extends State<PostProgramScreen> {
+  GoogleMapController _controller;
+  Location _locationService = Location();
+  LatLng _selectedLocation;
+
+  // 現在位置
+  LocationData _yourLocation;
+
+  // 現在位置の監視状況
+  StreamSubscription _locationChangedListen;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 現在位置の取得
+    _getLocation();
+
+    // 現在位置の変化を監視
+    _locationChangedListen =
+        _locationService.onLocationChanged.listen((LocationData result) async {
+      setState(() {
+        _yourLocation = result;
+      });
+      if (_controller != null) {
+        _controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
+          target: LatLng(_yourLocation.latitude, _yourLocation.longitude),
+          zoom: 18.0,
+        )));
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    // 監視を終了
+    _locationChangedListen?.cancel();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final PostProgramScreenArgument _arg = ModalRoute.of(context).settings.arguments;
+    final PostProgramScreenArgument _arg =
+        ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: AppBar(
         title: Text('投稿画面'),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Text(_arg.program.toString()),
-            MaterialButton(
-              child: Text('投稿'),
-              onPressed: () {
-                Firestore.instance.collection('programs').document().setData({'program': _arg.program});
-              },
-            ),
-          ],
-        ),
+      body: Stack(
+        children: [
+          _makeGoogleMap(),
+          Text(
+            _selectedLocation.toString(),
+            style: TextStyle(color: Colors.black),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.send),
+        onPressed:
+            _selectedLocation != null ? () => _postProgram(_arg.program) : null,
       ),
     );
+  }
+
+  Widget _makeGoogleMap() {
+    if (_yourLocation == null) {
+      // 現在位置が取れるまではローディング中
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      // Google Map Widgetを返す
+      return GoogleMap(
+        // 初期表示される位置情報を現在位置から設定
+        initialCameraPosition: CameraPosition(
+          target: LatLng(_yourLocation.latitude, _yourLocation.longitude),
+          zoom: 18.0,
+        ),
+        onMapCreated: (GoogleMapController controller) {
+          _controller = controller;
+        },
+        markers: Set.from([
+          Marker(
+            markerId: MarkerId('0'),
+            position: _selectedLocation,
+          ),
+        ]),
+
+        // 現在位置にアイコンをおく
+        myLocationEnabled: true,
+
+        minMaxZoomPreference: MinMaxZoomPreference(18, 20),
+        scrollGesturesEnabled: false,
+        myLocationButtonEnabled: false,
+
+        onTap: (newLatLng) {
+          setState(() {
+            _selectedLocation = newLatLng;
+          });
+        },
+      );
+    }
+  }
+
+  void _getLocation() async {
+    _yourLocation = await _locationService.getLocation();
+  }
+
+  void _postProgram(List<Map<String, dynamic>> program) async {
+    NetworkHelper networkHelper = NetworkHelper(
+        '$geoAPIURL&x=${_selectedLocation.longitude}&y=${_selectedLocation.latitude}');
+
+    var res = await networkHelper.getData();
+    if (res['response']['error'] == null) {
+      // エラーが起こっていない時
+      var address = res['response']['location'][0];
+      print(address);
+
+      Firestore.instance
+          .collection('stories')
+          .document(address['prefecture'])
+          .collection('cities')
+          .document(address['city'])
+          .setData(
+        {
+          'program': program,
+          'lat': _selectedLocation.latitude,
+          'lng': _selectedLocation.longitude
+        },
+      );
+    }
   }
 }
 

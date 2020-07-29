@@ -35,13 +35,13 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
         _locationService.onLocationChanged.listen((LocationData result) async {
       setState(() {
         _yourLocation = result;
-        if (_controller != null) {
-          _controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
-            target: LatLng(_yourLocation.latitude, _yourLocation.longitude),
-            zoom: 18.0,
-          )));
-        }
       });
+      if (_controller != null) {
+        _controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
+          target: LatLng(_yourLocation.latitude, _yourLocation.longitude),
+          zoom: 18.0,
+        )));
+      }
     });
   }
 
