@@ -93,8 +93,8 @@ class _ProgramScreenState extends State<ProgramScreen> {
 
   List<Widget> _buildDragList() {
     List<Widget> answer = [];
-    allProgram.forEach((program) {
-      answer.add(program.program.generateDrag(program));
+    allProgram.forEach((name) {
+      answer.add(getNewProgram(name).program.generateDrag(getNewProgram(name)));
     });
     return answer;
   }

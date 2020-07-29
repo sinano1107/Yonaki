@@ -167,16 +167,42 @@ const _objects = {
 
 // すべてのプログラムを入れるリスト
 final List<dynamic> allProgram = [
-  CreateObject(),
-  DestroyObject(),
-  SetTrigger(),
-  ToggleShowGauge(),
-  ResetGauge(),
-  ShowStory(),
-  StartChase(),
-  SetAnim(),
-  Await(),
+  'CreateObject',
+  'DestroyObject',
+  'SetTrigger',
+  'ToggleShowGauge',
+  'ResetGauge',
+  'ShowStory',
+  'StartChase',
+  'SetAnim',
+  'Await',
 ];
+
+// 新鮮なプログラムを取得
+dynamic getNewProgram(String name) {
+  switch (name) {
+    case 'CreateObject':
+      return CreateObject();
+    case 'DestroyObject':
+      return DestroyObject();
+    case 'SetTrigger':
+      return SetTrigger();
+    case 'ToggleShowGauge':
+      return ToggleShowGauge();
+    case 'ResetGauge':
+      return ResetGauge();
+    case 'ShowStory':
+      return ShowStory();
+    case 'StartChase':
+      return StartChase();
+    case 'SetAnim':
+      return SetAnim();
+    case 'Await':
+      return Await();
+    default:
+      print('指定のプログラムが登録されていません $name');
+  }
+}
 
 // createObject
 class CreateObject {
