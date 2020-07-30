@@ -3,8 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:location/location.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:yonaki/components/higanbana.dart';
 import 'package:yonaki/models/yonaki_provider.dart';
 import 'package:yonaki/screens/ar_screen.dart';
+import 'package:yonaki/services/japanese_service.dart';
 import 'package:yonaki/services/lat_lng_service.dart';
 import 'package:yonaki/parameter.dart';
 import 'package:yonaki/story.dart';
@@ -58,20 +62,48 @@ class _WalkScreenState extends State<WalkScreen> {
       appBar: AppBar(
         title: Text('散歩モード'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('歩く画面(仮デザイン)'),
-            MaterialButton(
-              child: Text('テスト用AR起動ボタン'),
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned(
+            bottom: 450,
+            child: Column(
+              children: [
+                Text(
+                  JapaneseService().japanesePercent(_total / _eventDistance),
+                  style: TextStyle(
+                    fontSize: 50,
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                LinearPercentIndicator(
+                  width: 300.0,
+                  lineHeight: 25,
+                  percent:
+                      _total / _eventDistance > 1 ? 1 : _total / _eventDistance,
+                  progressColor: Colors.red,
+                ),
+              ],
+            ),
+          ),
+          Higanbana(3, 0, -100),
+          Higanbana(2.5, -20, -50),
+          Higanbana(1.6, 0, -590),
+          Higanbana(1.6, -50, 50),
+          Positioned(
+            bottom: 10,
+            left: 10,
+            child: MaterialButton(
+              child: Text('テスト用ARボタン'),
               onPressed: () => Navigator.pushReplacementNamed(
                   context, ARScreen.id,
                   arguments:
                       ARScreenArgument(userProgram: null, isLocation: false)),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -98,8 +130,14 @@ class _WalkScreenState extends State<WalkScreen> {
       print('移動した距離 $_distance m');
 
       // totalに追加
-      _total += _distance;
+      setState(() {
+        _total += _distance;
+      });
       print('total: $_total');
+
+      // 鈴の音を再生
+      final player = AudioCache();
+      player.play('bell.mp3');
 
       // 指定メートル以上移動した場合
       if (_total >= _eventDistance) {

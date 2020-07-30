@@ -19,6 +19,9 @@ class Yonaki extends StatelessWidget {
       create: (context) => YonakiProvider(),
       child: MaterialApp(
         theme: ThemeData.dark().copyWith(
+          textTheme: Theme.of(context).textTheme.apply(fontFamily: 'Horror'),
+          primaryTextTheme: Theme.of(context).textTheme.apply(fontFamily: 'Horror'),
+          accentTextTheme: Theme.of(context).textTheme.apply(fontFamily: 'Horror'),
           primaryColor: Colors.blueGrey[600],
         ),
         initialRoute: LoadingScreen.id,
