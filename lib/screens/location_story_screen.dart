@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:yonaki/screens/ar_screen.dart';
 import 'package:yonaki/services/address_service.dart';
+import 'package:yonaki/parameter.dart';
 
 class LocationStoryScreen extends StatefulWidget {
   static const String id = 'locationStory';
@@ -100,12 +101,7 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
         children: [
           _makeGoogleMap(context),
           MaterialButton(
-            child: Text(
-              _beforeAddress.toString(),
-              style: TextStyle(
-                color: Colors.black,
-              ),
-            ),
+            child: Text(_beforeAddress.toString()),
             onPressed: () {
               setState(() {
                 _beforeAddress['city'] = '栃木市';
@@ -136,6 +132,7 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
         ),
         onMapCreated: (GoogleMapController controller) {
           _controller = controller;
+          _controller.setMapStyle(Parameter.kGoogleMapStyle);
         },
 
         // マーカー

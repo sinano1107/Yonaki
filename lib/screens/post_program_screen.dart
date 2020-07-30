@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:yonaki/services/address_service.dart';
+import 'package:yonaki/parameter.dart';
 
 class PostProgramScreen extends StatefulWidget {
   static const String id = 'postProgram';
@@ -76,10 +77,7 @@ class _PostProgramScreenState extends State<PostProgramScreen> {
       body: Stack(
         children: [
           _makeGoogleMap(),
-          Text(
-            _selectedLocation.toString(),
-            style: TextStyle(color: Colors.black),
-          ),
+          Text(_selectedLocation.toString()),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -106,6 +104,7 @@ class _PostProgramScreenState extends State<PostProgramScreen> {
         ),
         onMapCreated: (GoogleMapController controller) {
           _controller = controller;
+          _controller.setMapStyle(Parameter.kGoogleMapStyle);
         },
         markers: Set.from([
           Marker(
