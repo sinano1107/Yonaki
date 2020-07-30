@@ -82,8 +82,7 @@ class _PostProgramScreenState extends State<PostProgramScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.send),
-        onPressed:
-            _selectedLocation != null ? () => _postProgram(_arg.program) : null,
+        onPressed: () => _postProgram(_arg.program),
       ),
     );
   }
@@ -133,6 +132,13 @@ class _PostProgramScreenState extends State<PostProgramScreen> {
 
   void _getLocation() async {
     _yourLocation = await _locationService.getLocation();
+    setState(
+      () {
+        // 初期ターゲットを設定
+        _selectedLocation =
+            LatLng(_yourLocation.latitude, _yourLocation.longitude);
+      },
+    );
   }
 
   void _postProgram(List<Map<String, dynamic>> program) async {
