@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:yonaki/screens/ar_screen.dart';
+import 'package:yonaki/components/story_detail_sheet.dart';
 import 'package:yonaki/services/address_service.dart';
 import 'package:yonaki/parameter.dart';
 
@@ -162,7 +162,6 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
   }
 
   void loadStories() {
-    print('loadStories');
     _storiesListen = Firestore.instance
         .collection('allStories')
         .document(_beforeAddress['prefecture'])
@@ -190,13 +189,9 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
             markerId: MarkerId(index.toString()),
             position: LatLng(story['lat'], story['lng']),
             consumeTapEvents: true,
-            onTap: () => Navigator.pushNamed(
-              context,
-              ARScreen.id,
-              arguments: ARScreenArgument(
-                userProgram: story['program'].cast<Map<String, dynamic>>(),
-                isLocation: true,
-              ),
+            onTap: () => showModalBottomSheet(
+              context: context,
+              builder: (context) => StoryDetailSheet(story),
             ),
           ),
         );
