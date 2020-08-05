@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:yonaki/services/address_service.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:yonaki/components/post_program_sheet.dart';
 import 'package:yonaki/parameter.dart';
 
 class PostProgramScreen extends StatefulWidget {
@@ -18,6 +18,8 @@ class _PostProgramScreenState extends State<PostProgramScreen> {
   GoogleMapController _controller;
   Location _locationService = Location();
   LatLng _selectedLocation;
+
+  bool _loading = false;
 
   // 現在位置
   LocationData _yourLocation;
@@ -70,19 +72,36 @@ class _PostProgramScreenState extends State<PostProgramScreen> {
     final PostProgramScreenArgument _arg =
         ModalRoute.of(context).settings.arguments;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('投稿画面'),
-      ),
-      body: Stack(
-        children: [
-          _makeGoogleMap(),
-          Text(_selectedLocation.toString()),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.send),
-        onPressed: () => _postProgram(_arg.program),
+    return ModalProgressHUD(
+      inAsyncCall: _loading,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('投稿画面'),
+        ),
+        body: Stack(
+          children: [
+            _makeGoogleMap(),
+            Text(_selectedLocation.toString()),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.send),
+          onPressed: () => showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (context) => SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: PostProgramSheet(
+                  program: _arg.program,
+                  selectedLocation: _selectedLocation,
+                  showLoading: () => setState(() => _loading = true),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -137,28 +156,6 @@ class _PostProgramScreenState extends State<PostProgramScreen> {
         // 初期ターゲットを設定
         _selectedLocation =
             LatLng(_yourLocation.latitude, _yourLocation.longitude);
-      },
-    );
-  }
-
-  void _postProgram(List<Map<String, dynamic>> program) async {
-    var address = await AddressService()
-        .getAddress(_selectedLocation.latitude, _selectedLocation.longitude);
-
-    print(address);
-
-    Firestore.instance
-        .collection('allStories')
-        .document(address['prefecture'])
-        .collection('cities')
-        .document(address['city'])
-        .collection('stories')
-        .document()
-        .setData(
-      {
-        'program': program,
-        'lat': _selectedLocation.latitude,
-        'lng': _selectedLocation.longitude
       },
     );
   }

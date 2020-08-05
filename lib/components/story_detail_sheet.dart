@@ -11,7 +11,6 @@ class StoryDetailSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: 500,
         child: Padding(
           padding: EdgeInsets.all(20),
           child: Column(
