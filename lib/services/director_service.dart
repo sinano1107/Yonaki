@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:yonaki/services/firebase_service.dart';
 import 'package:yonaki/services/story_service.dart';
 
 class DirectorService {
@@ -38,9 +39,7 @@ class DirectorService {
 
       // オブジェクトを生成
       case 'createObject':
-        print('オブジェクト ${program['name']} を ${program['space']} よりも外に生成します');
-        unityWidgetController.postMessage('GameDirector', 'CreateObject',
-            json.encode({'name': program['name'], 'space': program['space']}));
+        createObject(program['name'], program['space']);
         break;
 
       // オブジェクトを削除
@@ -106,5 +105,22 @@ class DirectorService {
       default:
         print('未知の処理を受け取りました。問題がないか確認してください\nprogram: $program');
     }
+  }
+
+  void createObject(String name, String space) async {
+    final firebaseService = FirebaseService();
+    final String crc = await firebaseService.getCrc(name);
+    final String uri = await firebaseService.getUri(name);
+    print(
+        'オブジェクト $name を $space よりも外に生成します\nuri: $uri, crc: $crc');
+    unityWidgetController.postMessage(
+        'GameDirector',
+        'CreateObject',
+        json.encode({
+          'name': name,
+          'space': space,
+          'crc': crc,
+          'uri': uri,
+        }));
   }
 }
