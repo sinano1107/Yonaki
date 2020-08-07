@@ -44,9 +44,9 @@ class DirectorService {
 
       // オブジェクトを削除
       case 'destroyObject':
-        print('${program['tag']} を削除します');
+        print('オブジェクトを削除します');
         unityWidgetController.postMessage(
-            'GameDirector', 'DestroyObject', program['tag']);
+            'GameDirector', 'DestroyObject', '');
         break;
 
       // nextのトリガーを設定
@@ -78,12 +78,11 @@ class DirectorService {
       // 追いかけっこをスタート
       case 'startChase':
         print(
-            '${program['tag']} が ${program['speed']}% の速さで追いかけてきます。 当たり判定は ${program['collider']} です');
+            '${program['speed']}% の速さで追いかけてきます。 当たり判定は ${program['collider']} です');
         unityWidgetController.postMessage(
             'GameDirector',
             'StartChase',
             json.encode({
-              'tag': program['tag'],
               'newSpeed': program['speed'],
               'newCollider': program['collider']
             }));
@@ -91,9 +90,9 @@ class DirectorService {
 
       // アニメを設定
       case 'setAnim':
-        print("${program['name']} のアニメを ${program['num']} に設定します");
-        unityWidgetController.postMessage('GameDirector', 'SetAnim',
-            jsonEncode({'name': program['name'], 'num': program['num']}));
+        print("アニメを ${program['num']} に設定します");
+        unityWidgetController.postMessage(
+            'GameDirector', 'SetAnim', jsonEncode({'num': program['num']}));
         break;
 
       // 次のnextがくるまで待つ
@@ -111,8 +110,7 @@ class DirectorService {
     final firebaseService = FirebaseService();
     final String crc = await firebaseService.getCrc(name);
     final String uri = await firebaseService.getUri(name);
-    print(
-        'オブジェクト $name を $space よりも外に生成します\nuri: $uri, crc: $crc');
+    print('オブジェクト $name を $space よりも外に生成します\nuri: $uri, crc: $crc');
     unityWidgetController.postMessage(
         'GameDirector',
         'CreateObject',
