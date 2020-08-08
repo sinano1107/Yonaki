@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:yonaki/models/yonaki_provider.dart';
 import 'package:yonaki/screens/location_story_screen.dart';
+import 'package:yonaki/screens/post_object_screen.dart';
 import 'package:yonaki/screens/program_screen.dart';
 import 'package:yonaki/screens/walk_screen.dart';
-import 'package:yonaki/services/firebase_service.dart';
 
 class LoadingScreen extends StatefulWidget {
   static const String id = 'loading';
@@ -45,18 +45,19 @@ class _LoadingScreenState extends State<LoadingScreen> {
                           Navigator.pushNamed(context, WalkScreen.id),
                     ),
                     MaterialButton(
-                      child: Text('プログラム画面へ'),
-                      onPressed: () =>
-                          Navigator.pushNamed(context, ProgramScreen.id),
-                    ),
-                    MaterialButton(
                       child: Text('ロケーションストーリー'),
                       onPressed: () =>
                           Navigator.pushNamed(context, LocationStoryScreen.id),
                     ),
                     MaterialButton(
-                      child: Text('テスト用'),
-                      onPressed: () => FirebaseService().getObjects(),
+                      child: Text('恐怖体験を投稿する'),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, ProgramScreen.id),
+                    ),
+                    MaterialButton(
+                      child: Text('幽霊を投稿する'),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, PostObjectScreen.id),
                     ),
                   ],
                 ),

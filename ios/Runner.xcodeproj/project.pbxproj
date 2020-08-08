@@ -11,6 +11,7 @@
 		2A5F03310EE58E5CC10E4247 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2244A589FE1F00CDBDF4DC8 /* Pods_Runner.framework */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		492D38BC24DA85DA00FD70FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 492D38BB24DA85DA00FD70FE /* GoogleService-Info.plist */; };
+		4956BD6124DEE8250056FB01 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4956BD6024DEE8250056FB01 /* CloudKit.framework */; };
 		4962259524B440500058B6E0 /* UnityFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F878924B30A7B00B098A3 /* UnityFramework.framework */; };
 		496F878A24B30A7B00B098A3 /* UnityFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F878924B30A7B00B098A3 /* UnityFramework.framework */; };
 		496F878B24B30A7B00B098A3 /* UnityFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 496F878924B30A7B00B098A3 /* UnityFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -41,6 +42,8 @@
 		15611CFF0B2CC01331EA028C /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		492D38BB24DA85DA00FD70FE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4956BD5F24DEE7E10056FB01 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		4956BD6024DEE8250056FB01 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		496F878924B30A7B00B098A3 /* UnityFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UnityFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4956BD6124DEE8250056FB01 /* CloudKit.framework in Frameworks */,
 				2A5F03310EE58E5CC10E4247 /* Pods_Runner.framework in Frameworks */,
 				496F878A24B30A7B00B098A3 /* UnityFramework.framework in Frameworks */,
 				4962259524B440500058B6E0 /* UnityFramework.framework in Frameworks */,
@@ -115,6 +119,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				4956BD5F24DEE7E10056FB01 /* Runner.entitlements */,
 				492D38BB24DA85DA00FD70FE /* GoogleService-Info.plist */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
@@ -131,6 +136,7 @@
 		A52CEE9AF127EFDEFBFDD198 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4956BD6024DEE8250056FB01 /* CloudKit.framework */,
 				496F878924B30A7B00B098A3 /* UnityFramework.framework */,
 				A2244A589FE1F00CDBDF4DC8 /* Pods_Runner.framework */,
 			);
@@ -386,6 +392,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
@@ -526,6 +533,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
@@ -560,6 +568,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
