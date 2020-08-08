@@ -25,6 +25,7 @@ class _ARScreenState extends State<ARScreen> {
   @override
   void dispose() {
     super.dispose();
+    _unityWidgetController.postMessage('GameDirector', 'Sleep', '');
     _unityWidgetController.pause();
   }
 
@@ -92,8 +93,8 @@ class _ARScreenState extends State<ARScreen> {
   void onUnityCreated(UnityWidgetController controller, BuildContext context,
       List<Map<String, dynamic>> userProgram, bool isLocation) async {
     this._unityWidgetController = controller;
-    // シーンを再ロード
-    _unityWidgetController.postMessage('GameDirector', 'Restart', '');
+    // ゲームシーンをロード
+    _unityWidgetController.postMessage('SleepDirector', 'Restart', '');
 
     // すぐにディレクターが起動すると正しく動作しないため1秒後に実行
     await Future.delayed(Duration(seconds: 1));
