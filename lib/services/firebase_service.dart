@@ -15,4 +15,14 @@ class FirebaseService {
         .document(name)
         .get())['crc'];
   }
+
+  Future<Map<String, String>> getObjects() async {
+    Map<String, String> answer = {};
+    var objectRef =
+        await Firestore.instance.collection('objects').getDocuments();
+    objectRef.documents.forEach((object) {
+      answer[object.data['name']] = object.documentID;
+    });
+    return answer;
+  }
 }

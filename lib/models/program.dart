@@ -52,8 +52,7 @@ class Program {
 
       // choiceが空だったら
       if (param.choice == null) {
-        if (param.val == null)
-          param.val = '''["ストーリーを", "表示します"]''';
+        if (param.val == null) param.val = '''["ストーリーを", "表示します"]''';
         answer = EditStories(
           strStories: param.val,
           edit: (List<dynamic> stories) => param.val = json.encode(stories),
@@ -62,8 +61,7 @@ class Program {
         final keys = param.choice.keys.toList();
         final values = param.choice.values.toList();
 
-        if (param.val == null)
-          param.val = values[0];
+        if (param.val == null) param.val = values[0];
 
         answer = ProgramDropdown(
           keys: keys,
@@ -159,12 +157,6 @@ class Program {
 }
 
 //------------------------------------------------------------------------------
-const _objects = {
-  '目玉': 'eyeball',
-  '目無し': 'menasi',
-  '人形': 'ichimatu',
-};
-
 // すべてのプログラムを入れるリスト
 final List<dynamic> allProgram = [
   'CreateObject',
@@ -179,10 +171,12 @@ final List<dynamic> allProgram = [
 ];
 
 // 新鮮なプログラムを取得
-dynamic getNewProgram(String name) {
+dynamic getNewProgram(String name, Map<String, String> objects) {
   switch (name) {
     case 'CreateObject':
-      return CreateObject();
+      final createObject = CreateObject();
+      createObject.init(objects);
+      return createObject;
     case 'DestroyObject':
       return DestroyObject();
     case 'SetTrigger':
@@ -206,21 +200,25 @@ dynamic getNewProgram(String name) {
 
 // createObject
 class CreateObject {
-  Program program = Program(
-    document: 'オブジェクトを生成します',
-    process: 'createObject',
-    params: {
-      'name': Param(choice: _objects),
-      'space': Param(choice: {
-        '0': '0',
-        '1': '1',
-        '2': '2',
-        '3': '3',
-        '4': '4',
-      }),
-    },
-    color: Colors.red[100],
-  );
+  Program program;
+
+  void init(Map<String, String> objects) {
+    program = Program(
+      document: 'オブジェクトを生成します',
+      process: 'createObject',
+      params: {
+        'name': Param(choice: objects),
+        'space': Param(choice: {
+          '0': '0',
+          '1': '1',
+          '2': '2',
+          '3': '3',
+          '4': '4',
+        }),
+      },
+      color: Colors.red[100],
+    );
+  }
 }
 
 // destroyObject
@@ -228,9 +226,7 @@ class DestroyObject {
   Program program = Program(
     document: '指定のオブジェクトを破壊します',
     process: 'destroyObject',
-    params: {
-      'tag': Param(choice: _objects),
-    },
+    params: {},
     color: Colors.red[200],
   );
 }
@@ -290,9 +286,6 @@ class StartChase {
     document: '追いかけっこを開始します',
     process: 'startChase',
     params: {
-      'tag': Param(
-        choice: _objects,
-      ),
       'speed': Param(
         choice: Map.fromIterable(
           range(1, 201),
@@ -318,7 +311,6 @@ class SetAnim {
     document: 'オブジェクトのアニメーションを設定します',
     process: 'setAnim',
     params: {
-      'name': Param(choice: _objects),
       'num': Param(choice: {
         '待つ': '0',
         '歩く': '1',

@@ -5,6 +5,7 @@ import 'package:yonaki/models/yonaki_provider.dart';
 import 'package:yonaki/screens/location_story_screen.dart';
 import 'package:yonaki/screens/program_screen.dart';
 import 'package:yonaki/screens/walk_screen.dart';
+import 'package:yonaki/services/firebase_service.dart';
 
 class LoadingScreen extends StatefulWidget {
   static const String id = 'loading';
@@ -52,6 +53,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
                       child: Text('ロケーションストーリー'),
                       onPressed: () =>
                           Navigator.pushNamed(context, LocationStoryScreen.id),
+                    ),
+                    MaterialButton(
+                      child: Text('テスト用'),
+                      onPressed: () => FirebaseService().getObjects(),
                     ),
                   ],
                 ),
