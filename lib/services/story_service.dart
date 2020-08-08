@@ -30,6 +30,7 @@ class StoryService {
             return AlertDialog(
               title: TyperAnimatedTextKit(
                 text: [stories[index].toString()],
+                textStyle: TextStyle(color: Colors.white),
                 textAlign: TextAlign.center,
                 isRepeatingAnimation: false,
                 onFinished: () {

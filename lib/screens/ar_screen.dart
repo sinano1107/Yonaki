@@ -45,47 +45,13 @@ class _ARScreenState extends State<ARScreen> {
           : AppBar(
               title: Text('テスト'),
             ),
-      body: Column(
-        children: [
-          Expanded(
-            child: AnimatedOpacity(
-              opacity: _visible ? 1.0 : 0.0,
-              duration: Duration(milliseconds: 500),
-              child: UnityWidget(
-                onUnityViewCreated: (controller) => onUnityCreated(
-                    controller, context, _arg.userProgram, _arg.isLocation),
-              ),
-            ),
-            flex: 10,
-          ),
-          Expanded(
-            child: Card(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: <Widget>[
-                    MaterialButton(
-                      child: Text('テスト用戻るボタン'),
-                      onPressed: _arg.userProgram == null
-                          ? () => Navigator.pushReplacementNamed(
-                              context, WalkScreen.id)
-                          : () => Navigator.pop(context),
-                    ),
-                    MaterialButton(
-                      child: Text('unityWidgetを隠す'),
-                      onPressed: () => {
-                        setState(() {
-                          _visible = !_visible;
-                        }),
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            flex: 1,
-          ),
-        ],
+      body: AnimatedOpacity(
+        opacity: _visible ? 1.0 : 0.0,
+        duration: Duration(milliseconds: 500),
+        child: UnityWidget(
+          onUnityViewCreated: (controller) => onUnityCreated(
+              controller, context, _arg.userProgram, _arg.isLocation),
+        ),
       ),
     );
   }

@@ -45,6 +45,7 @@ class _EditStorySheetState extends State<EditStorySheet> {
             keyboardType: TextInputType.multiline,
             maxLines: null,
             onChanged: (String newValue) => widget.onChanged(newValue),
+            style: TextStyle(color: Colors.white),
           ),
         ],
       ),

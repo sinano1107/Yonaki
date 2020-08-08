@@ -67,7 +67,10 @@ class _EditStoriesState extends State<EditStories> {
         },
         child: Card(
           child: ListTile(
-            title: Text(story),
+            title: Text(
+              story,
+              style: TextStyle(color: Colors.white),
+            ),
             trailing: IconButton(
               icon: Icon(Icons.edit),
               onPressed: () => showModalBottomSheet(

@@ -85,6 +85,7 @@ class Program {
           children: <Widget>[
                 Row(
                   children: [
+                    SizedBox(width: 10),
                     Text(this.process),
                     IconButton(
                       icon: Icon(Icons.remove),
