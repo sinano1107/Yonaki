@@ -80,7 +80,7 @@ class _ARScreenState extends State<ARScreen> {
             }
           : isLocation
               ? () => Navigator.pop(context)
-              : () => Navigator.pushNamed(context, PostProgramScreen.id,
+              : () => Navigator.pushReplacementNamed(context, PostProgramScreen.id,
                   arguments: PostProgramScreenArgument(userProgram)),
     );
 
