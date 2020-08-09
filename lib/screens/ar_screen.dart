@@ -62,9 +62,6 @@ class _ARScreenState extends State<ARScreen> {
     // ゲームシーンをロード
     _unityWidgetController.postMessage('SleepDirector', 'Restart', '');
 
-    // すぐにディレクターが起動すると正しく動作しないため1秒後に実行
-    await Future.delayed(Duration(seconds: 1));
-
     // ディレクターを生成
     final directorService = DirectorService(
       storyService: _storyService,

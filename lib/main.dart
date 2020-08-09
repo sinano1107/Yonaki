@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yonaki/models/yonaki_provider.dart';
 import 'package:yonaki/screens/ar_screen.dart';
-import 'package:yonaki/screens/loading_screen.dart';
+import 'package:yonaki/screens/title_screen.dart';
 import 'package:yonaki/screens/location_story_screen.dart';
 import 'package:yonaki/screens/post_object_screen.dart';
 import 'package:yonaki/screens/post_program_screen.dart';
