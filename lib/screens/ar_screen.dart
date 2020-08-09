@@ -39,19 +39,12 @@ class _ARScreenState extends State<ARScreen> {
       visible: () => setState(() => _visible = true),
     );
 
-    return Scaffold(
-      appBar: _arg.userProgram == null
-          ? null
-          : AppBar(
-              title: Text('テスト'),
-            ),
-      body: AnimatedOpacity(
-        opacity: _visible ? 1.0 : 0.0,
-        duration: Duration(milliseconds: 500),
-        child: UnityWidget(
-          onUnityViewCreated: (controller) => onUnityCreated(
-              controller, context, _arg.userProgram, _arg.isLocation),
-        ),
+    return AnimatedOpacity(
+      opacity: _visible ? 1.0 : 0.0,
+      duration: Duration(milliseconds: 500),
+      child: UnityWidget(
+        onUnityViewCreated: (controller) => onUnityCreated(
+            controller, context, _arg.userProgram, _arg.isLocation),
       ),
     );
   }
@@ -77,7 +70,8 @@ class _ARScreenState extends State<ARScreen> {
             }
           : isLocation
               ? () => Navigator.pop(context)
-              : () => Navigator.pushReplacementNamed(context, PostProgramScreen.id,
+              : () => Navigator.pushReplacementNamed(
+                  context, PostProgramScreen.id,
                   arguments: PostProgramScreenArgument(userProgram)),
     );
 
@@ -86,6 +80,10 @@ class _ARScreenState extends State<ARScreen> {
 
     // unityListenerのnext関数を変更
     _yonakiProvider.editUnityListenerNext(() => directorService.next());
+    // unityListenerのpop関数を変更
+    _yonakiProvider.editUnityListenerPop(userProgram == null
+        ? () => Navigator.pushReplacementNamed(context, WalkScreen.id)
+        : () => Navigator.pop(context));
   }
 }
 

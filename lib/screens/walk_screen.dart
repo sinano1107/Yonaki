@@ -119,9 +119,9 @@ class _WalkScreenState extends State<WalkScreen> {
     _beforeLocation = _firstLocation;
     print('初期座標: $_beforeLocation');
 
+    await Future.delayed(Duration(seconds: 10));
+
     while (!_isDisposed) {
-      print('10秒待ちます');
-      await Future.delayed(Duration(seconds: 10));
       final _newLocation = await _getLocation();
       print('今の座標: $_newLocation');
 
@@ -153,6 +153,8 @@ class _WalkScreenState extends State<WalkScreen> {
 
         print('立ち止まったままの可能性があります');
       }
+
+      await Future.delayed(Duration(seconds: 10));
     }
   }
 }

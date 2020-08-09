@@ -14,6 +14,13 @@ class YonakiProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void editUnityListenerPop(Function newPop) {
+    print('ListenerPopの変更を要請されました $newPop');
+
+    unityListenerService.pop = newPop;
+    notifyListeners();
+  }
+
   //-story----------------------------------------------------------------------
   void editStory(Story newStory) {
     print('ストーリーの変更を要請されました $newStory');
