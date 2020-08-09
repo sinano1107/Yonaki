@@ -9,9 +9,11 @@ import 'package:yonaki/components/program_dropdown.dart';
 class Param {
   String val;
   final Map<String, String> choice;
+  final String name;
 
   Param({
     @required this.choice,
+    @required this.name,
   });
 }
 
@@ -64,6 +66,7 @@ class Program {
         if (param.val == null) param.val = values[0];
 
         answer = ProgramDropdown(
+          name: param.name,
           keys: keys,
           val: param.choice.keys.firstWhere(
             (k) => param.choice[k] == param.val,
@@ -208,14 +211,20 @@ class CreateObject {
       document: 'オブジェクトを生成します',
       process: 'createObject',
       params: {
-        'name': Param(choice: objects),
-        'space': Param(choice: {
-          '0': '0',
-          '1': '1',
-          '2': '2',
-          '3': '3',
-          '4': '4',
-        }),
+        'name': Param(
+          choice: objects,
+          name: '幽霊',
+        ),
+        'space': Param(
+          choice: {
+            '0': '0',
+            '1': '1',
+            '2': '2',
+            '3': '3',
+            '4': '4',
+          },
+          name: 'スペース',
+        ),
       },
       color: Colors.red[100],
     );
@@ -238,10 +247,13 @@ class SetTrigger {
     document: '次の処理に移る条件を設定します',
     process: 'setTrigger',
     params: {
-      'trigger': Param(choice: {
-        '見つけた時': 'Find',
-        '拾った時': 'PickUp',
-      }),
+      'trigger': Param(
+        choice: {
+          '見つけた時': 'Find',
+          '拾った時': 'PickUp',
+        },
+        name: 'トリガー',
+      ),
     },
     color: Colors.red[300],
   );
@@ -275,6 +287,7 @@ class ShowStory {
     params: {
       'stories': Param(
         choice: null, // nullだと文字入力ができる
+        name: 'ストーリー',
       ),
     },
     color: Colors.red[600],
@@ -293,6 +306,7 @@ class StartChase {
           key: (e) => '$e %',
           value: (e) => e.toString(),
         ),
+        name: 'スピード',
       ),
       'collider': Param(
         choice: Map.fromIterable(
@@ -300,6 +314,7 @@ class StartChase {
           key: (e) => (e / 100).toString(),
           value: (e) => (e / 100).toString(),
         ),
+        name: '判定距離',
       ),
     },
     color: Colors.red[700],
@@ -312,10 +327,13 @@ class SetAnim {
     document: 'オブジェクトのアニメーションを設定します',
     process: 'setAnim',
     params: {
-      'num': Param(choice: {
-        '待つ': '0',
-        '歩く': '1',
-      }),
+      'num': Param(
+        choice: {
+          '待つ': '0',
+          '歩く': '1',
+        },
+        name: 'アニメーション',
+      ),
     },
     color: Colors.red[800],
   );
