@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:yonaki/models/yonaki_provider.dart';
 import 'package:yonaki/screens/ar_screen.dart';
@@ -10,6 +11,10 @@ import 'package:yonaki/screens/program_screen.dart';
 import 'package:yonaki/screens/walk_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,//縦固定
+  ]);
   runApp(Yonaki());
 }
 
