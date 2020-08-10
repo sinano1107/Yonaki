@@ -77,7 +77,6 @@ class _PostObjectScreenState extends State<PostObjectScreen> {
               onPressed: (_file != null && _name != null && _crc != null)
                   ? () {
                       postObject();
-                      Navigator.pop(context);
                     }
                   : null,
             ),
@@ -108,6 +107,7 @@ class _PostObjectScreenState extends State<PostObjectScreen> {
         name: _name,
         crc: _crc,
       );
+      Navigator.pop(context);
     } else {
       setState(() {
         _file = null;
