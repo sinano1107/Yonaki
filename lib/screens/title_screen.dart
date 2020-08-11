@@ -205,6 +205,7 @@ class _TitleScreenState extends State<TitleScreen> {
           ),
         ],
       ),
+      barrierDismissible: false,
     );
   }
 }
