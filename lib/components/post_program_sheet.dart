@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:yonaki/screens/title_screen.dart';
 import 'package:yonaki/services/address_service.dart';
 
@@ -96,22 +98,25 @@ class _PostProgramSheetState extends State<PostProgramSheet> {
 
     print(address);
 
-    Firestore.instance
-        .collection('allStories')
-        .document(address['prefecture'])
-        .collection('cities')
-        .document(address['city'])
-        .collection('stories')
-        .document()
-        .setData(
-      {
-        'program': widget.program,
-        'lat': widget.selectedLocation.latitude,
-        'lng': widget.selectedLocation.longitude,
-        'title': title,
-        'content': content,
-      },
-    ).then((value) => Navigator.pushNamedAndRemoveUntil(
-            context, TitleScreen.id, (route) => false));
+    FirebaseAuth.instance.currentUser().then(
+          (user) => Firestore.instance
+              .collection('allStories')
+              .document(address['prefecture'])
+              .collection('cities')
+              .document(address['city'])
+              .collection('stories')
+              .document()
+              .setData(
+            {
+              'program': widget.program,
+              'lat': widget.selectedLocation.latitude,
+              'lng': widget.selectedLocation.longitude,
+              'title': title,
+              'content': content,
+              'uid': user.uid,
+            },
+          ).then((value) => Navigator.pushNamedAndRemoveUntil(
+                  context, TitleScreen.id, (route) => false)),
+        );
   }
 }

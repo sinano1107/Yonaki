@@ -5,9 +5,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseService {
-  Future<String> getUri(String name) async {
+  Future<String> getUri(String path) async {
     StorageReference storageRef =
-        FirebaseStorage.instance.ref().child('prefabs/$name');
+        FirebaseStorage.instance.ref().child(path);
     return await storageRef.getDownloadURL();
   }
 
@@ -42,5 +42,12 @@ class FirebaseService {
       'crc': crc,
     });
     FirebaseStorage.instance.ref().child('prefabs/$id').putFile(asset);
+  }
+
+  // uidからユーザー情報を取得
+  Future<Map<String, dynamic>> getUserData(String uid) async {
+    final ref =
+        await Firestore.instance.collection('users').document(uid).get();
+    return ref.data;
   }
 }
