@@ -2,10 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>UIBackgroundModes</key>
+    <key>CFBundleURLTypes</key>
     <array>
-       <string>fetch</string>
-       <string>remote-notification</string>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.googleusercontent.apps.540640267721-stg0jtpte60b97m6f1jc040p97mp0avo</string>
+            </array>
+        </dict>
     </array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
@@ -33,6 +39,11 @@
 	<string>あなたの位置情報を使用します</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>あなたの位置情報を使用します</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

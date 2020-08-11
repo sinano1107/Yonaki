@@ -74,9 +74,10 @@ class _PostProgramSheetState extends State<PostProgramSheet> {
                 MaterialButton(
                   textColor: Theme.of(context).accentColor,
                   child: Icon(Icons.send),
-                  onPressed: (title.length != 0 && content.length != 0 && !sending)
-                      ? () => _postProgram()
-                      : null,
+                  onPressed:
+                      (title.length != 0 && content.length != 0 && !sending)
+                          ? () => _postProgram()
+                          : null,
                 ),
               ],
             ),
@@ -110,6 +111,7 @@ class _PostProgramSheetState extends State<PostProgramSheet> {
         'title': title,
         'content': content,
       },
-    ).then((value) => Navigator.pushNamedAndRemoveUntil(context, LoadingScreen.id, (route) => false));
+    ).then((value) => Navigator.pushNamedAndRemoveUntil(
+            context, TitleScreen.id, (route) => false));
   }
 }
