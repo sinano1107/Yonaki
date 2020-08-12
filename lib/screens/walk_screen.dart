@@ -53,10 +53,10 @@ class _WalkScreenState extends State<WalkScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _yonakiProvider = Provider.of<YonakiProvider>(context);
+    _yonakiProvider = Provider.of<YonakiProvider>(context, listen: false);
     // ストーリが表示されていない、もしくはストーリーが終了している場合
     if (_yonakiProvider.story == null || _yonakiProvider.story.program == null)
-      _yonakiProvider.story = getRandomStory();
+      _yonakiProvider.editStory(getRandomStory());
 
     return Scaffold(
       appBar: AppBar(

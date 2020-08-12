@@ -4,11 +4,13 @@ import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:yonaki/models/yonaki_provider.dart';
 import 'package:yonaki/screens/location_story_screen.dart';
 import 'package:yonaki/screens/post_object_screen.dart';
 import 'package:yonaki/screens/program_screen.dart';
 import 'package:yonaki/screens/walk_screen.dart';
+import 'package:yonaki/services/firebase_service.dart';
 
 const double _width = 200;
 
@@ -21,6 +23,7 @@ class TitleScreen extends StatefulWidget {
 
 class _TitleScreenState extends State<TitleScreen> {
   UnityWidgetController _unityWidgetController;
+  YonakiProvider _yonakiProvider;
 
   // サインインに必要なもの
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -28,11 +31,19 @@ class _TitleScreenState extends State<TitleScreen> {
 
   bool _signing = true;
 
+  // アイコンURL
+  String icon;
+
+  bool isInitiated = false;
   @override
-  void initState() {
-    super.initState();
-    // サインイン
-    _signIn();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!isInitiated) {
+      _yonakiProvider = Provider.of<YonakiProvider>(context);
+      // サインイン
+      _signIn();
+      isInitiated = true;
+    }
   }
 
   @override
@@ -43,99 +54,136 @@ class _TitleScreenState extends State<TitleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _yonakiProvider = Provider.of<YonakiProvider>(context);
     final Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      body: ModalProgressHUD(
-        inAsyncCall: _signing,
-        child: SingleChildScrollView(
-          child: SafeArea(
-            child: Column(
-              children: [
-                Container(
-                  height: size.height,
-                  width: size.width,
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 150, bottom: 100),
-                          child: Text(
-                            '夜亡キ',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 100,
+    return ModalProgressHUD(
+      inAsyncCall: _signing,
+      child: Scaffold(
+        appBar: AppBar(backgroundColor: Colors.transparent),
+        drawer: Drawer(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                padding: EdgeInsets.only(top: 40),
+                height: 150,
+                color: Colors.blueGrey,
+                child: _yonakiProvider.myIcon != null
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Container(
+                              width: 60,
+                              height: 60,
+                              child: CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(_yonakiProvider.myIcon)),
                             ),
                           ),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              _yonakiProvider.myAccountData['name'],
+                              style: TextStyle(
+                                fontSize: 30,
+                              ),
+                              maxLines: 1,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Center(child: CircularProgressIndicator()),
+              ),
+            ],
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: size.height,
+                width: size.width,
+                child: Center(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 100, bottom: 100),
+                        child: Text(
+                          '夜亡キ',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 100,
+                          ),
                         ),
-                        MaterialButton(
-                          child: Text('あるく'),
-                          minWidth: _width,
-                          color: Colors.red,
-                          shape: StadiumBorder(),
-                          onPressed: () =>
-                              Navigator.pushNamed(context, WalkScreen.id),
-                        ),
-                        SizedBox(height: 10),
-                        MaterialButton(
-                          child: Text('恐怖体験を調べる'),
-                          minWidth: _width,
-                          color: Colors.red,
-                          shape: StadiumBorder(),
-                          onPressed: () => Navigator.pushNamed(
-                              context, LocationStoryScreen.id),
-                        ),
-                        SizedBox(height: 10),
-                        MaterialButton(
-                          child: Text('恐怖体験を投稿する'),
-                          minWidth: _width,
-                          color: Colors.red,
-                          shape: StadiumBorder(),
-                          onPressed: () =>
-                              Navigator.pushNamed(context, ProgramScreen.id),
-                        ),
-                        SizedBox(height: 10),
-                        MaterialButton(
-                          child: Text('幽霊を投稿する'),
-                          minWidth: _width,
-                          color: Colors.red,
-                          shape: StadiumBorder(),
-                          onPressed: () =>
-                              Navigator.pushNamed(context, PostObjectScreen.id),
-                        ),
-                        SizedBox(height: 10),
-                        MaterialButton(
-                          child: Text('サインアウト'),
-                          minWidth: _width - 100,
-                          color: Colors.blue,
-                          shape: StadiumBorder(),
-                          onPressed: () => _auth.signOut().then((message) {
-                            print('_auth サインアウトしました');
-                            _googleSignIn.signOut().then((message2) {
-                              print('_googleSignIn サインアウトしました');
-                              setState(() => _signing = true);
-                              _signIn();
-                            }).catchError((e) => print('_googleSignIn $e'));
-                          }).catchError((e) => print('_auth $e')),
-                        ),
-                      ],
-                    ),
+                      ),
+                      MaterialButton(
+                        child: Text('あるく'),
+                        minWidth: _width,
+                        color: Colors.red,
+                        shape: StadiumBorder(),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, WalkScreen.id),
+                      ),
+                      SizedBox(height: 10),
+                      MaterialButton(
+                        child: Text('恐怖体験を調べる'),
+                        minWidth: _width,
+                        color: Colors.red,
+                        shape: StadiumBorder(),
+                        onPressed: () => Navigator.pushNamed(
+                            context, LocationStoryScreen.id),
+                      ),
+                      SizedBox(height: 10),
+                      MaterialButton(
+                        child: Text('恐怖体験を投稿する'),
+                        minWidth: _width,
+                        color: Colors.red,
+                        shape: StadiumBorder(),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, ProgramScreen.id),
+                      ),
+                      SizedBox(height: 10),
+                      MaterialButton(
+                        child: Text('幽霊を投稿する'),
+                        minWidth: _width,
+                        color: Colors.red,
+                        shape: StadiumBorder(),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, PostObjectScreen.id),
+                      ),
+                      SizedBox(height: 10),
+                      MaterialButton(
+                        child: Text('サインアウト'),
+                        minWidth: _width - 100,
+                        color: Colors.blue,
+                        shape: StadiumBorder(),
+                        onPressed: () => _auth.signOut().then((message) {
+                          print('_auth サインアウトしました');
+                          _googleSignIn.signOut().then((message2) {
+                            print('_googleSignIn サインアウトしました');
+                            setState(() => _signing = true);
+                            _signIn();
+                          }).catchError((e) => print('_googleSignIn $e'));
+                        }).catchError((e) => print('_auth $e')),
+                      ),
+                    ],
                   ),
                 ),
+              ),
 
-                // Unity初回起動時のラグを解決するために隠して起動
-                Container(
-                  height: size.height,
-                  width: size.width,
-                  child: UnityWidget(
-                    onUnityViewCreated: _onUnityCreated,
-                    onUnityMessage: (controller, message) =>
-                        _yonakiProvider.unityListenerService.listen(message),
-                  ),
+              // Unity初回起動時のラグを解決するために隠して起動
+              Container(
+                height: size.height,
+                width: size.width,
+                child: UnityWidget(
+                  onUnityViewCreated: _onUnityCreated,
+                  onUnityMessage: (controller, message) =>
+                      _yonakiProvider.unityListenerService.listen(message),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           physics: NeverScrollableScrollPhysics(),
         ),
@@ -150,10 +198,14 @@ class _TitleScreenState extends State<TitleScreen> {
 
   // サインイン関数
   void _signIn() {
-    _handleSignIn().then((FirebaseUser user) {
-      if (user != null)
+    _handleSignIn().then((FirebaseUser user) async {
+      if (user != null) {
         setState(() => _signing = false);
-      else
+        _yonakiProvider.editUid(user.uid);
+        _yonakiProvider
+            .editMyAccountData(await FirebaseService().getUserData(user.uid));
+        _yonakiProvider.editMyIcon();
+      } else
         _showFailedSignIn();
     }).catchError((e) => print(e));
   }

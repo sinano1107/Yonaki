@@ -24,9 +24,8 @@ class _StoryDetailSheetState extends State<StoryDetailSheet> {
 
   void asyncInit() async {
     final userData = await FirebaseService().getUserData(widget.story['uid']);
-    print(userData['icon']);
-    final String path = userData['icon'] == '' ? 'icon.png' : 'users/${widget.story['uid']}/${userData['icon']}';
-    final userIcon = await FirebaseService().getUri(path);
+    final userIcon =
+        await FirebaseService().getIcon(widget.story['uid'], userData['icon']);
     setState(() {
       _userData = userData;
       _userIcon = userIcon;

@@ -50,4 +50,10 @@ class FirebaseService {
         await Firestore.instance.collection('users').document(uid).get();
     return ref.data;
   }
+
+  // アイコンのuriを取得
+  Future<String> getIcon(String uid, String icon) {
+    final path = icon == '' ? 'icon.png' : 'users/$uid/$icon';
+    return getUri(path);
+  }
 }

@@ -32,7 +32,7 @@ class _ARScreenState extends State<ARScreen> {
   @override
   Widget build(BuildContext context) {
     final ARScreenArgument _arg = ModalRoute.of(context).settings.arguments;
-    _yonakiProvider = Provider.of<YonakiProvider>(context);
+    _yonakiProvider = Provider.of<YonakiProvider>(context, listen: false);
     _storyService = StoryService(
       context: context,
       fade: () => setState(() => _visible = false),
