@@ -5,12 +5,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseService {
+  // ストレージのhファイルを取得するURIを取得
   Future<String> getUri(String path) async {
-    StorageReference storageRef =
-        FirebaseStorage.instance.ref().child(path);
+    StorageReference storageRef = FirebaseStorage.instance.ref().child(path);
     return await storageRef.getDownloadURL();
   }
 
+  // objectの名前からcrcを取得
   Future<String> getCrc(String name) async {
     return (await Firestore.instance
         .collection('objects')
@@ -18,6 +19,7 @@ class FirebaseService {
         .get())['crc'];
   }
 
+  // オブジェクト一覧を取得
   Future<Map<String, String>> getObjects() async {
     Map<String, String> answer = {};
     var objectsRef =
@@ -41,7 +43,7 @@ class FirebaseService {
       'name': name,
       'crc': crc,
     });
-    FirebaseStorage.instance.ref().child('prefabs/$id').putFile(asset);
+    putFile('prefabs/$id', asset);
   }
 
   // uidからユーザー情報を取得
@@ -52,8 +54,20 @@ class FirebaseService {
   }
 
   // アイコンのuriを取得
-  Future<String> getIcon(String uid, String icon) {
-    final path = icon == '' ? 'icon.png' : 'users/$uid/$icon';
+  Future<String> getIcon(String uid, bool defaultIcon) {
+    final path = defaultIcon ? 'icon.png' : 'users/$uid/icon';
     return getUri(path);
+  }
+
+  // storageにファイルを保存
+  Future<void> putFile(String path, File file) async {
+    await FirebaseStorage.instance.ref().child(path).putFile(file).onComplete;
+    return null;
+  }
+
+  // 自分のアカウントデータを編集
+  Future<void> editMyAccountData(String uid, Map<String, dynamic> val) async {
+    await Firestore.instance.collection('users').document(uid).setData(val);
+    return null;
   }
 }

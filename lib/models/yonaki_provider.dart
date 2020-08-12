@@ -31,7 +31,8 @@ class YonakiProvider extends ChangeNotifier {
   //-myIcon---------------------------------------------------------------------
   void editMyIcon() async {
     print('アイコンの変更を要請されました');
-    _myIcon = await FirebaseService().getIcon(_uid, _myAccountData['icon']);
+    _myIcon = await FirebaseService().getIcon(_uid, _myAccountData['defaultIcon']);
+    print(_myIcon);
     notifyListeners();
   }
 

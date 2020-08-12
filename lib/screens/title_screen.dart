@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:file_picker/file_picker.dart';
 
+import 'package:yonaki/components/edit_my_name_screen.dart';
 import 'package:yonaki/models/yonaki_provider.dart';
 import 'package:yonaki/screens/location_story_screen.dart';
 import 'package:yonaki/screens/post_object_screen.dart';
@@ -77,19 +81,50 @@ class _TitleScreenState extends State<TitleScreen> {
                             child: Container(
                               width: 60,
                               height: 60,
-                              child: CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(_yonakiProvider.myIcon)),
+                              child: GestureDetector(
+                                onTap: _yonakiProvider
+                                        .myAccountData['defaultIcon']
+                                    ? () => _uploadIcon(true)
+                                    : () => showDialog(
+                                        context: context,
+                                        builder: (_) => SimpleDialog(
+                                              title: Text('アイコンを変更'),
+                                              children: [
+                                                SimpleDialogOption(
+                                                  onPressed: () {
+                                                    _uploadIcon(false);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text('ライブラリからアップロード'),
+                                                ),
+                                                SimpleDialogOption(
+                                                  onPressed: () {
+                                                    _changeDefaultIcon();
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text('デフォルトのアイコンに戻す'),
+                                                ),
+                                              ],
+                                            )),
+                                child: CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage(_yonakiProvider.myIcon)),
+                              ),
                             ),
                           ),
                           Expanded(
                             flex: 3,
-                            child: Text(
-                              _yonakiProvider.myAccountData['name'],
-                              style: TextStyle(
-                                fontSize: 30,
+                            child: GestureDetector(
+                              onTap: () => showModalBottomSheet(
+                                  context: context,
+                                  builder: (_) => EditMyNameScreen()),
+                              child: Text(
+                                _yonakiProvider.myAccountData['name'],
+                                style: TextStyle(
+                                  fontSize: 30,
+                                ),
+                                maxLines: 1,
                               ),
-                              maxLines: 1,
                             ),
                           ),
                         ],
@@ -259,5 +294,37 @@ class _TitleScreenState extends State<TitleScreen> {
       ),
       barrierDismissible: false,
     );
+  }
+
+  // アイコンを編集
+  void _uploadIcon(bool defaultIcon) async {
+    final File file = await FilePicker.getFile(
+      type: FileType.image,
+    );
+    if (defaultIcon) {
+      // 今デフォルトのアイコンかどうか
+      // そうだったらfalseにする
+      Map<String, dynamic> newAccountData = _yonakiProvider.myAccountData;
+      newAccountData['defaultIcon'] = false;
+      await FirebaseService()
+          .editMyAccountData(_yonakiProvider.uid, newAccountData)
+          .then((_) => _yonakiProvider.editMyAccountData(newAccountData));
+    }
+    // 写真を変更・更新する
+    await FirebaseService()
+        .putFile('users/${_yonakiProvider.uid}/icon', file)
+        .then((_) => _yonakiProvider.editMyIcon());
+  }
+
+  // アイコンをデフォルトに変更
+  void _changeDefaultIcon() async {
+    Map<String, dynamic> newAccountData = _yonakiProvider.myAccountData;
+    newAccountData['defaultIcon'] = true;
+    await FirebaseService()
+        .editMyAccountData(_yonakiProvider.uid, newAccountData)
+        .then((_) {
+      _yonakiProvider.editMyAccountData(newAccountData);
+      _yonakiProvider.editMyIcon();
+    });
   }
 }
