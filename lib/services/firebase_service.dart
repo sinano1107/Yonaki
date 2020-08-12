@@ -50,7 +50,20 @@ class FirebaseService {
   Future<Map<String, dynamic>> getUserData(String uid) async {
     final ref =
         await Firestore.instance.collection('users').document(uid).get();
-    return ref.data;
+
+    if (ref.data == null) {
+      // ユーザーデータがなかった場合
+      final newUserData = {
+        'name': '名無しの幽霊',
+        'defaultIcon': true,
+      };
+      await Firestore.instance
+          .collection('users')
+          .document(uid)
+          .setData(newUserData);
+      return newUserData;
+    } else
+      return ref.data;
   }
 
   // アイコンのuriを取得
