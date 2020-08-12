@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+
 import 'package:yonaki/models/yonaki_provider.dart';
 import 'package:yonaki/screens/post_program_screen.dart';
 import 'package:yonaki/screens/walk_screen.dart';
@@ -20,7 +22,9 @@ class _ARScreenState extends State<ARScreen> {
   StoryService _storyService;
 
   // unityWidgetを表示するか
-  bool _visible = true;
+  bool _visible = false;
+
+  bool _loading = true;
 
   @override
   void dispose() {
@@ -39,12 +43,15 @@ class _ARScreenState extends State<ARScreen> {
       visible: () => setState(() => _visible = true),
     );
 
-    return AnimatedOpacity(
-      opacity: _visible ? 1.0 : 0.0,
-      duration: Duration(milliseconds: 500),
-      child: UnityWidget(
-        onUnityViewCreated: (controller) => onUnityCreated(
-            controller, context, _arg.userProgram, _arg.isLocation),
+    return ModalProgressHUD(
+      inAsyncCall: _loading,
+      child: AnimatedOpacity(
+        opacity: _visible ? 1.0 : 0.0,
+        duration: Duration(milliseconds: 500),
+        child: UnityWidget(
+          onUnityViewCreated: (controller) => onUnityCreated(
+              controller, context, _arg.userProgram, _arg.isLocation),
+        ),
       ),
     );
   }
@@ -76,7 +83,10 @@ class _ARScreenState extends State<ARScreen> {
     );
 
     // ディレクタースタート
-    directorService.start();
+    directorService.start().then((_) => setState(() {
+          _loading = false;
+          _visible = true;
+        }));
 
     // unityListenerのnext関数を変更
     _yonakiProvider.editUnityListenerNext(() => directorService.next());
