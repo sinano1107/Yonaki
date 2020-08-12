@@ -31,6 +31,7 @@ class _EditMyNameScreenState extends State<EditMyNameScreen> {
           children: [
             TextField(
               controller: _textEditingController,
+              autofocus: true,
               maxLines: 1,
               maxLength: 10,
               textAlign: TextAlign.center,

@@ -116,8 +116,19 @@ class _TitleScreenState extends State<TitleScreen> {
                             flex: 3,
                             child: GestureDetector(
                               onTap: () => showModalBottomSheet(
-                                  context: context,
-                                  builder: (_) => EditMyNameScreen()),
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (_) => SingleChildScrollView(
+                                  child: Container(
+                                    padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom,
+                                    ),
+                                    child: EditMyNameScreen(),
+                                  ),
+                                ),
+                              ),
                               child: Text(
                                 _yonakiProvider.myAccountData['name'],
                                 style: TextStyle(
