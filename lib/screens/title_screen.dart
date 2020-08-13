@@ -72,7 +72,7 @@ class _TitleScreenState extends State<TitleScreen> {
                 padding: EdgeInsets.only(top: 40),
                 height: 150,
                 color: Colors.blueGrey,
-                child: _yonakiProvider.myIcon != null
+                child: _yonakiProvider.myAccountData != null
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -81,35 +81,41 @@ class _TitleScreenState extends State<TitleScreen> {
                             child: Container(
                               width: 60,
                               height: 60,
-                              child: GestureDetector(
-                                onTap: _yonakiProvider
-                                        .myAccountData['defaultIcon']
-                                    ? () => _uploadIcon(true)
-                                    : () => showDialog(
-                                        context: context,
-                                        builder: (_) => SimpleDialog(
-                                              title: Text('アイコンを変更'),
-                                              children: [
-                                                SimpleDialogOption(
-                                                  onPressed: () {
-                                                    _uploadIcon(false);
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Text('ライブラリからアップロード'),
-                                                ),
-                                                SimpleDialogOption(
-                                                  onPressed: () {
-                                                    _changeDefaultIcon();
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Text('デフォルトのアイコンに戻す'),
-                                                ),
-                                              ],
-                                            )),
-                                child: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(_yonakiProvider.myIcon)),
-                              ),
+                              child: _yonakiProvider.myIcon != null
+                                  ? GestureDetector(
+                                      onTap: _yonakiProvider
+                                              .myAccountData['defaultIcon']
+                                          ? () => _uploadIcon(true)
+                                          : () => showDialog(
+                                              context: context,
+                                              builder: (_) => SimpleDialog(
+                                                    title: Text('アイコンを変更'),
+                                                    children: [
+                                                      SimpleDialogOption(
+                                                        onPressed: () {
+                                                          _uploadIcon(false);
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Text(
+                                                            'ライブラリからアップロード'),
+                                                      ),
+                                                      SimpleDialogOption(
+                                                        onPressed: () {
+                                                          _changeDefaultIcon();
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Text(
+                                                            'デフォルトのアイコンに戻す'),
+                                                      ),
+                                                    ],
+                                                  )),
+                                      child: CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                              _yonakiProvider.myIcon)),
+                                    )
+                                  : CircleAvatar(),
                             ),
                           ),
                           Expanded(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:yonaki/components/story_comments.dart';
 import 'package:yonaki/screens/ar_screen.dart';
 import 'package:yonaki/services/firebase_service.dart';
 
@@ -24,8 +26,8 @@ class _StoryDetailSheetState extends State<StoryDetailSheet> {
 
   void asyncInit() async {
     final userData = await FirebaseService().getUserData(widget.story['uid']);
-    final userIcon =
-        await FirebaseService().getIcon(widget.story['uid'], userData['defaultIcon']);
+    final userIcon = await FirebaseService()
+        .getIcon(widget.story['uid'], userData['defaultIcon']);
     setState(() {
       _userData = userData;
       _userIcon = userIcon;
@@ -47,60 +49,60 @@ class _StoryDetailSheetState extends State<StoryDetailSheet> {
                   fontSize: 50,
                 ),
               ),
-              Divider(
-                height: 40,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: (_userData != null && _userIcon != null)
-                    ? [
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            '投稿者:',
-                            style: TextStyle(color: Colors.white, fontSize: 20),
+              Divider(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: _userData != null
+                      ? [
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              '投稿者:',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
                           ),
-                        ),
-                        Container(
-                          height: 50,
-                          width: 50,
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage(_userIcon),
+                          Container(
+                            height: 50,
+                            width: 50,
+                            child: _userIcon != null
+                                ? CircleAvatar(
+                                    backgroundImage: NetworkImage(_userIcon),
+                                  )
+                                : CircleAvatar(),
                           ),
-                        ),
-                        SizedBox(width: 10),
-                        Expanded(
-                          flex: 3,
-                          child: Text(
-                            _userData['name'],
-                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          SizedBox(width: 10),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              _userData['name'],
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
                           ),
-                        ),
-                      ]
-                    : [CircularProgressIndicator()],
-              ),
-              Divider(
-                height: 40,
-              ),
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Text(
-                      widget.story['content'],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        height: 2,
-                        color: Colors.red,
-                      ),
-                    ),
-                    Divider(
-                      height: 20,
-                      indent: 30,
-                      endIndent: 30,
-                    ),
-                  ],
+                        ]
+                      : [CircularProgressIndicator()],
                 ),
               ),
+              Divider(),
+              Container(
+                height: 100,
+                width: double.infinity,
+                child: SingleChildScrollView(
+                  child: Text(
+                    widget.story['content'],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      height: 2,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+              Divider(),
+              Expanded(child: StoryComments(widget.story)),
             ],
           ),
         ),

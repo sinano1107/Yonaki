@@ -83,4 +83,24 @@ class FirebaseService {
     await Firestore.instance.collection('users').document(uid).setData(val);
     return null;
   }
+
+  // ストーリーを取得
+  Future<List> getStories(String prefecture, String city) async {
+    final storiesRef = await Firestore.instance
+        .collection('allStories')
+        .document(prefecture)
+        .collection('cities')
+        .document(city)
+        .collection('stories')
+        .getDocuments();
+
+    return storiesRef.documents;
+  }
+
+  // ストーリーのコメントを取得
+  Future<List> getComments(DocumentReference reference) async {
+    final commentsRef = await reference.collection('comments').getDocuments();
+
+    return commentsRef.documents;
+  }
 }
