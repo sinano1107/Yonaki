@@ -24,6 +24,7 @@ class Yonaki extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => YonakiProvider(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData.dark().copyWith(
           textTheme: Theme.of(context).textTheme.apply(fontFamily: 'Horror'),
           primaryTextTheme: Theme.of(context).textTheme.apply(fontFamily: 'Horror'),
