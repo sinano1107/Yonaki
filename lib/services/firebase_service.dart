@@ -73,15 +73,15 @@ class FirebaseService {
   }
 
   // storageにファイルを保存
-  Future<void> putFile(String path, File file) async {
+  Future putFile(String path, File file) async {
     await FirebaseStorage.instance.ref().child(path).putFile(file).onComplete;
-    return null;
+    return;
   }
 
   // 自分のアカウントデータを編集
-  Future<void> editMyAccountData(String uid, Map<String, dynamic> val) async {
+  Future editMyAccountData(String uid, Map<String, dynamic> val) async {
     await Firestore.instance.collection('users').document(uid).setData(val);
-    return null;
+    return;
   }
 
   // ストーリーを取得
@@ -102,5 +102,15 @@ class FirebaseService {
     final commentsRef = await reference.collection('comments').getDocuments();
 
     return commentsRef.documents;
+  }
+
+  // コメントを投稿
+  Future postComment(
+      DocumentReference reference, String uid, String comment) async {
+    await reference
+        .collection('comments')
+        .document(uid)
+        .setData({'comment': comment});
+    return;
   }
 }

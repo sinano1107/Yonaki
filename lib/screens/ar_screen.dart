@@ -76,7 +76,7 @@ class _ARScreenState extends State<ARScreen> {
               Navigator.pushReplacementNamed(context, WalkScreen.id);
             }
           : isLocation
-              ? () => Navigator.pop(context)
+              ? () => Navigator.pop(context, true)
               : () => Navigator.pushReplacementNamed(
                   context, PostProgramScreen.id,
                   arguments: PostProgramScreenArgument(userProgram)),
@@ -93,7 +93,7 @@ class _ARScreenState extends State<ARScreen> {
     // unityListenerのpop関数を変更
     _yonakiProvider.editUnityListenerPop(userProgram == null
         ? () => Navigator.pushReplacementNamed(context, WalkScreen.id)
-        : () => Navigator.pop(context));
+        : () => Navigator.pop(context, false));
   }
 }
 

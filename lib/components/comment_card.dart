@@ -41,7 +41,11 @@ class _CommentCardState extends State<CommentCard> {
                 child: Row(
                   children: _name != null ? [
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.only(
+                        right: 10,
+                        left: 10,
+                        top: 5,
+                      ),
                       child: Container(
                         width: 40,
                         height: 40,
