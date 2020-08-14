@@ -34,7 +34,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('プログラム画面'),
+        title: Text('心霊体験を作る'),
       ),
       body: ModalProgressHUD(
         inAsyncCall: _objects == null,

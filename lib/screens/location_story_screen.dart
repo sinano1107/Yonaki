@@ -93,27 +93,15 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('位置情報ベースの体験'),
-        bottom: _loading ? PreferredSize(
-          preferredSize: Size.fromHeight(2),
-          child: LinearProgressIndicator(),
-        ) : null,
+        title: Text('近くの心霊スポット'),
+        bottom: _loading
+            ? PreferredSize(
+                preferredSize: Size.fromHeight(2),
+                child: LinearProgressIndicator(),
+              )
+            : null,
       ),
-      body: Stack(
-        children: [
-          _makeGoogleMap(context),
-          MaterialButton(
-            child: Text(_beforeAddress.toString()),
-            onPressed: () {
-              setState(() {
-                _beforeAddress['city'] = '栃木市';
-                _beforeAddress['prefecture'] = '栃木県';
-              });
-              loadStories();
-            },
-          ),
-        ],
-      ),
+      body: _makeGoogleMap(context),
     );
   }
 

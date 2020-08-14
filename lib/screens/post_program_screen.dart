@@ -76,7 +76,7 @@ class _PostProgramScreenState extends State<PostProgramScreen> {
       inAsyncCall: _loading,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('投稿画面'),
+          title: Text('心霊スポットを投稿'),
         ),
         body: Stack(
           children: [

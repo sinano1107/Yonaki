@@ -180,7 +180,7 @@ class _TitleScreenState extends State<TitleScreen> {
                       ),
                       SizedBox(height: 10),
                       MaterialButton(
-                        child: Text('恐怖体験を調べる'),
+                        child: Text('心霊体験を調べる'),
                         minWidth: _width,
                         color: Colors.red,
                         shape: StadiumBorder(),
@@ -189,7 +189,7 @@ class _TitleScreenState extends State<TitleScreen> {
                       ),
                       SizedBox(height: 10),
                       MaterialButton(
-                        child: Text('恐怖体験を投稿する'),
+                        child: Text('心霊体験を投稿する'),
                         minWidth: _width,
                         color: Colors.red,
                         shape: StadiumBorder(),
