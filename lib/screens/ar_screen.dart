@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+
 import 'package:yonaki/models/yonaki_provider.dart';
 import 'package:yonaki/screens/post_program_screen.dart';
 import 'package:yonaki/screens/walk_screen.dart';
@@ -20,7 +22,9 @@ class _ARScreenState extends State<ARScreen> {
   StoryService _storyService;
 
   // unityWidgetを表示するか
-  bool _visible = true;
+  bool _visible = false;
+
+  bool _loading = true;
 
   @override
   void dispose() {
@@ -32,19 +36,22 @@ class _ARScreenState extends State<ARScreen> {
   @override
   Widget build(BuildContext context) {
     final ARScreenArgument _arg = ModalRoute.of(context).settings.arguments;
-    _yonakiProvider = Provider.of<YonakiProvider>(context);
+    _yonakiProvider = Provider.of<YonakiProvider>(context, listen: false);
     _storyService = StoryService(
       context: context,
       fade: () => setState(() => _visible = false),
       visible: () => setState(() => _visible = true),
     );
 
-    return AnimatedOpacity(
-      opacity: _visible ? 1.0 : 0.0,
-      duration: Duration(milliseconds: 500),
-      child: UnityWidget(
-        onUnityViewCreated: (controller) => onUnityCreated(
-            controller, context, _arg.userProgram, _arg.isLocation),
+    return ModalProgressHUD(
+      inAsyncCall: _loading,
+      child: AnimatedOpacity(
+        opacity: _visible ? 1.0 : 0.0,
+        duration: Duration(milliseconds: 500),
+        child: UnityWidget(
+          onUnityViewCreated: (controller) => onUnityCreated(
+              controller, context, _arg.userProgram, _arg.isLocation),
+        ),
       ),
     );
   }
@@ -69,21 +76,24 @@ class _ARScreenState extends State<ARScreen> {
               Navigator.pushReplacementNamed(context, WalkScreen.id);
             }
           : isLocation
-              ? () => Navigator.pop(context)
+              ? () => Navigator.pop(context, true)
               : () => Navigator.pushReplacementNamed(
                   context, PostProgramScreen.id,
                   arguments: PostProgramScreenArgument(userProgram)),
     );
 
     // ディレクタースタート
-    directorService.start();
+    directorService.start().then((_) => setState(() {
+          _loading = false;
+          _visible = true;
+        }));
 
     // unityListenerのnext関数を変更
     _yonakiProvider.editUnityListenerNext(() => directorService.next());
     // unityListenerのpop関数を変更
     _yonakiProvider.editUnityListenerPop(userProgram == null
         ? () => Navigator.pushReplacementNamed(context, WalkScreen.id)
-        : () => Navigator.pop(context));
+        : () => Navigator.pop(context, false));
   }
 }
 

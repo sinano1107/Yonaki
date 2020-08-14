@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:yonaki/models/yonaki_provider.dart';
 import 'package:yonaki/screens/title_screen.dart';
 import 'package:yonaki/services/address_service.dart';
 
@@ -74,9 +77,10 @@ class _PostProgramSheetState extends State<PostProgramSheet> {
                 MaterialButton(
                   textColor: Theme.of(context).accentColor,
                   child: Icon(Icons.send),
-                  onPressed: (title.length != 0 && content.length != 0 && !sending)
-                      ? () => _postProgram()
-                      : null,
+                  onPressed:
+                      (title.length != 0 && content.length != 0 && !sending)
+                          ? () => _postProgram(context)
+                          : null,
                 ),
               ],
             ),
@@ -86,7 +90,7 @@ class _PostProgramSheetState extends State<PostProgramSheet> {
     );
   }
 
-  void _postProgram() async {
+  void _postProgram(BuildContext context) async {
     widget.showLoading();
     setState(() => sending = true);
 
@@ -109,7 +113,11 @@ class _PostProgramSheetState extends State<PostProgramSheet> {
         'lng': widget.selectedLocation.longitude,
         'title': title,
         'content': content,
+        'uid': Provider.of<YonakiProvider>(context, listen: false).uid,
       },
-    ).then((value) => Navigator.pushNamedAndRemoveUntil(context, LoadingScreen.id, (route) => false));
+    ).then((value) => Navigator.popUntil(
+              context,
+              ModalRoute.withName(TitleScreen.id),
+            ));
   }
 }

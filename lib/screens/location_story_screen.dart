@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+
 import 'package:yonaki/components/story_detail_sheet.dart';
 import 'package:yonaki/services/address_service.dart';
+import 'package:yonaki/services/firebase_service.dart';
 import 'package:yonaki/parameter.dart';
 
 class LocationStoryScreen extends StatefulWidget {
@@ -27,8 +28,7 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
   // 現在位置の監視状況
   StreamSubscription _locationChangedListen;
 
-  // ストーリーの監視状況
-  StreamSubscription _storiesListen;
+  bool _loading = false;
 
   @override
   void initState() {
@@ -75,7 +75,6 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
               _beforeAddress['prefecture'] = newAddres['prefecture'];
             },
           );
-          _storiesListen?.cancel();
           loadStories();
         }
       },
@@ -88,7 +87,6 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
 
     // 監視を終了
     _locationChangedListen?.cancel();
-    _storiesListen?.cancel();
   }
 
   @override
@@ -96,6 +94,10 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('位置情報ベースの体験'),
+        bottom: _loading ? PreferredSize(
+          preferredSize: Size.fromHeight(2),
+          child: LinearProgressIndicator(),
+        ) : null,
       ),
       body: Stack(
         children: [
@@ -107,7 +109,6 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
                 _beforeAddress['city'] = '栃木市';
                 _beforeAddress['prefecture'] = '栃木県';
               });
-              _storiesListen?.cancel();
               loadStories();
             },
           ),
@@ -161,23 +162,14 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
     loadStories();
   }
 
-  void loadStories() {
-    _storiesListen = Firestore.instance
-        .collection('allStories')
-        .document(_beforeAddress['prefecture'])
-        .collection('cities')
-        .document(_beforeAddress['city'])
-        .collection('stories')
-        .snapshots()
-        .listen(
-      (stories) {
-        setState(
-          () {
-            _stories = stories.documents;
-          },
-        );
-      },
-    );
+  void loadStories() async {
+    setState(() => _loading = true);
+    final stories = await FirebaseService()
+        .getStories(_beforeAddress['prefecture'], _beforeAddress['city']);
+    setState(() {
+      _stories = stories;
+      _loading = false;
+    });
   }
 
   Set<Marker> buildMarkers(BuildContext context) {

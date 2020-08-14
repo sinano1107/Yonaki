@@ -11,6 +11,7 @@ class DirectorService {
   final List<Map<String, dynamic>> programList;
   final Function finish;
   int index = 0; // 現在処理している指示のインデックス
+  Map<String, ObjectData> objectList; // このプログラムで使用するオブジェクトデータ一覧
 
   DirectorService({
     @required this.storyService,
@@ -19,8 +20,10 @@ class DirectorService {
     @required this.finish,
   });
 
-  void start() {
+  Future start() async {
+    objectList = await createObjectsList();
     _processing(programList[0]);
+    return;
   }
 
   void next() {
@@ -39,7 +42,19 @@ class DirectorService {
 
       // オブジェクトを生成
       case 'createObject':
-        createObject(program['name'], program['space']);
+        final name = program['name'];
+        final space = program['space'];
+        final objectData = objectList[name];
+        print('オブジェクト $name を $space よりも外に生成します');
+        unityWidgetController.postMessage(
+            'GameDirector',
+            'CreateObject',
+            json.encode({
+              'name': name,
+              'space': space,
+              'crc': objectData.crc,
+              'uri': objectData.uri,
+            }));
         break;
 
       // オブジェクトを削除
@@ -106,19 +121,26 @@ class DirectorService {
     }
   }
 
-  void createObject(String name, String space) async {
+  Future<Map<String, ObjectData>> createObjectsList() async {
+    Map<String, ObjectData> answer = {};
     final firebaseService = FirebaseService();
-    final String crc = await firebaseService.getCrc(name);
-    final String uri = await firebaseService.getUri(name);
-    print('オブジェクト $name を $space よりも外に生成します\nuri: $uri, crc: $crc');
-    unityWidgetController.postMessage(
-        'GameDirector',
-        'CreateObject',
-        json.encode({
-          'name': name,
-          'space': space,
-          'crc': crc,
-          'uri': uri,
-        }));
+
+    for (Map<String, dynamic> program in programList) {
+      if (program['p'] == 'createObject' && !answer.containsKey(program['name'])) {
+        final name = program['name'];
+        final String crc = await firebaseService.getCrc(name);
+        final String uri = await firebaseService.getUri('prefabs/$name');
+        print('$name を新しく取得しました\ncrc: $crc, uri: $uri');
+        answer[name] = ObjectData(crc: crc, uri: uri);
+      }
+    }
+    return answer;
   }
+}
+
+class ObjectData {
+  final String crc;
+  final String uri;
+
+  ObjectData({this.crc, this.uri});
 }
