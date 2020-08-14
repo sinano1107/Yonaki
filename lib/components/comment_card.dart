@@ -30,7 +30,7 @@ class _CommentCardState extends State<CommentCard> {
       width: _size.width - 40,
       height: double.infinity,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20),
+        padding: EdgeInsets.symmetric(vertical: 10),
         child: Card(
           color: Colors.white70,
           child: Column(

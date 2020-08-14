@@ -28,6 +28,8 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
   // 現在位置の監視状況
   StreamSubscription _locationChangedListen;
 
+  bool _loading = false;
+
   @override
   void initState() {
     super.initState();
@@ -92,6 +94,10 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('位置情報ベースの体験'),
+        bottom: _loading ? PreferredSize(
+          preferredSize: Size.fromHeight(2),
+          child: LinearProgressIndicator(),
+        ) : null,
       ),
       body: Stack(
         children: [
@@ -157,9 +163,13 @@ class _LocationStoryScreenState extends State<LocationStoryScreen> {
   }
 
   void loadStories() async {
+    setState(() => _loading = true);
     final stories = await FirebaseService()
         .getStories(_beforeAddress['prefecture'], _beforeAddress['city']);
-    setState(() => _stories = stories);
+    setState(() {
+      _stories = stories;
+      _loading = false;
+    });
   }
 
   Set<Marker> buildMarkers(BuildContext context) {
