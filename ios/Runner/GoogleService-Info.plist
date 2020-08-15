@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:540640267721:ios:a9481ed658317236bc2c18</string>
+	<string>1:540640267721:ios:7d797fa68438490cbc2c18</string>
 	<key>DATABASE_URL</key>
 	<string>https://yonaki.firebaseio.com</string>
 </dict>
