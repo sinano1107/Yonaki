@@ -215,6 +215,14 @@ class CreateObject {
           choice: objects,
           name: '幽霊',
         ),
+        'number': Param(
+          choice: Map.fromIterable(
+            range(1, 21),
+            key: (e) => e.toString(),
+            value: (e) => e.toString(),
+          ),
+          name: '個数',
+        ),
         'space': Param(
           choice: {
             '0': '0',

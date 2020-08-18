@@ -44,14 +44,16 @@ class DirectorService {
       case 'createObject':
         final name = program['name'];
         final space = program['space'];
+        final number = program['number'];
         final objectData = objectList[name];
-        print('オブジェクト $name を $space よりも外に生成します');
+        print('オブジェクト $name を $number個 $space よりも外に生成します');
         unityWidgetController.postMessage(
             'GameDirector',
             'CreateObject',
             json.encode({
               'name': name,
               'space': space,
+              'number': number,
               'crc': objectData.crc,
               'uri': objectData.uri,
             }));
