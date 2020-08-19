@@ -44,10 +44,14 @@ class _TitleScreenState extends State<TitleScreen> {
     super.didChangeDependencies();
     if (!isInitiated) {
       _yonakiProvider = Provider.of<YonakiProvider>(context);
-      // サインイン
-      _signIn();
       isInitiated = true;
+      asyncInit();
     }
+  }
+
+  void asyncInit() async {
+    await Future.delayed(Duration(seconds: 1)); // １秒待つ
+    _signIn(); // サインイン
   }
 
   @override
