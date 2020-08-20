@@ -34,6 +34,7 @@ class _TitleScreenState extends State<TitleScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   bool _signing = true;
+  bool _safety = false; // セーフティボタンの表示
 
   // アイコンURL
   String icon;
@@ -61,6 +62,24 @@ class _TitleScreenState extends State<TitleScreen> {
 
     return ModalProgressHUD(
       inAsyncCall: _signing,
+      progressIndicator: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+                CircularProgressIndicator(),
+              ] +
+              (_safety
+                  ? [
+                      SizedBox(height: 50),
+                      MaterialButton(
+                        child: Text('ダイアログが開かない場合'),
+                        color: Colors.black,
+                        onPressed: () => _signIn(),
+                      ),
+                    ]
+                  : []),
+        ),
+      ),
       child: Scaffold(
         appBar: AppBar(backgroundColor: Colors.transparent),
         drawer: Drawer(
@@ -267,10 +286,13 @@ class _TitleScreenState extends State<TitleScreen> {
     try {
       if (googleCurrentUser == null)
         googleCurrentUser = await _googleSignIn.signInSilently();
-      if (googleCurrentUser == null)
+      if (googleCurrentUser == null) {
+        setState(() => _safety = true);
         googleCurrentUser = await _googleSignIn.signIn();
+      }
       if (googleCurrentUser == null) return null;
 
+      setState(() => _safety = false);
       GoogleSignInAuthentication googleAuth =
           await googleCurrentUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.getCredential(
