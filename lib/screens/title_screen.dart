@@ -260,6 +260,10 @@ class _TitleScreenState extends State<TitleScreen> {
   // ハンドルサインイン
   Future<FirebaseUser> _handleSignIn() async {
     try {
+      // サインイン済みの場合
+      FirebaseUser user = await _auth.currentUser();
+      if (user != null) return user;
+
       final result = await AppleSignIn.performRequests([
         AppleIdRequest(
           requestedScopes: [Scope.fullName],
@@ -274,7 +278,7 @@ class _TitleScreenState extends State<TitleScreen> {
         idToken: String.fromCharCodes(result.credential.identityToken),
         accessToken: String.fromCharCodes(result.credential.authorizationCode),
       );
-      final user = (await _auth.signInWithCredential(credential)).user;
+      user = (await _auth.signInWithCredential(credential)).user;
       print('サインインしました ${user.uid}');
 
       return user;
