@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:file_picker/file_picker.dart';
 
 import 'package:yonaki/components/edit_my_name_screen.dart';
@@ -29,12 +29,9 @@ class _TitleScreenState extends State<TitleScreen> {
   UnityWidgetController _unityWidgetController;
   YonakiProvider _yonakiProvider;
 
-  // サインインに必要なもの
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   bool _signing = true;
-  bool _safety = false; // セーフティボタンの表示
 
   // アイコンURL
   String icon;
@@ -62,24 +59,6 @@ class _TitleScreenState extends State<TitleScreen> {
 
     return ModalProgressHUD(
       inAsyncCall: _signing,
-      progressIndicator: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-                CircularProgressIndicator(),
-              ] +
-              (_safety
-                  ? [
-                      SizedBox(height: 50),
-                      MaterialButton(
-                        child: Text('ダイアログが開かない場合'),
-                        color: Colors.black,
-                        onPressed: () => _signIn(),
-                      ),
-                    ]
-                  : []),
-        ),
-      ),
       child: Scaffold(
         appBar: AppBar(backgroundColor: Colors.transparent),
         drawer: Drawer(
@@ -229,14 +208,12 @@ class _TitleScreenState extends State<TitleScreen> {
                         minWidth: _width - 100,
                         color: Colors.blue,
                         shape: StadiumBorder(),
-                        onPressed: () => _auth.signOut().then((message) {
-                          print('_auth サインアウトしました');
-                          _googleSignIn.signOut().then((message2) {
-                            print('_googleSignIn サインアウトしました');
-                            setState(() => _signing = true);
-                            _signIn();
-                          }).catchError((e) => print('_googleSignIn $e'));
-                        }).catchError((e) => print('_auth $e')),
+                        onPressed: () async {
+                          await _auth.signOut();
+                          print('サインアウトしました');
+                          setState(() => _signing = true);
+                          _signIn();
+                        }
                       ),
                     ],
                   ),
@@ -282,26 +259,23 @@ class _TitleScreenState extends State<TitleScreen> {
 
   // ハンドルサインイン
   Future<FirebaseUser> _handleSignIn() async {
-    GoogleSignInAccount googleCurrentUser = _googleSignIn.currentUser;
     try {
-      if (googleCurrentUser == null)
-        googleCurrentUser = await _googleSignIn.signInSilently();
-      if (googleCurrentUser == null) {
-        setState(() => _safety = true);
-        googleCurrentUser = await _googleSignIn.signIn();
-      }
-      if (googleCurrentUser == null) return null;
+      final result = await AppleSignIn.performRequests([
+        AppleIdRequest(
+          requestedScopes: [Scope.fullName],
+          requestedOperation: OpenIdOperation.operationLogin,
+        ),
+      ]);
+      if (result == null) return null;
 
-      setState(() => _safety = false);
-      GoogleSignInAuthentication googleAuth =
-          await googleCurrentUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.getCredential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
+      const oAuthProvider = OAuthProvider(providerId: 'apple.com');
+
+      final credential = oAuthProvider.getCredential(
+        idToken: String.fromCharCodes(result.credential.identityToken),
+        accessToken: String.fromCharCodes(result.credential.authorizationCode),
       );
-      final FirebaseUser user =
-          (await _auth.signInWithCredential(credential)).user;
-      print('signed in ${user.displayName}');
+      final user = (await _auth.signInWithCredential(credential)).user;
+      print('サインインしました ${user.uid}');
 
       return user;
     } catch (e) {
