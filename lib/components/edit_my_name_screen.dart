@@ -18,7 +18,8 @@ class _EditMyNameScreenState extends State<EditMyNameScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _yonakiProvider = Provider.of<YonakiProvider>(context, listen: false);
-    _textEditingController = TextEditingController(text: _yonakiProvider.myAccountData['name']);
+    _textEditingController =
+        TextEditingController(text: _yonakiProvider.myAccountData['name']);
     _newName = _yonakiProvider.myAccountData['name'];
   }
 
@@ -41,7 +42,7 @@ class _EditMyNameScreenState extends State<EditMyNameScreen> {
             MaterialButton(
               textColor: Theme.of(context).accentColor,
               child: Icon(Icons.edit),
-              onPressed: _editMyName,
+              onPressed: _newName.length != 0 ? _editMyName : null,
             ),
           ],
         ),
@@ -56,8 +57,8 @@ class _EditMyNameScreenState extends State<EditMyNameScreen> {
     FirebaseService()
         .editMyAccountData(_yonakiProvider.uid, newAccountData)
         .then((_) {
-          _yonakiProvider.editMyAccountData(newAccountData);
-          Navigator.pop(context);
-        });
+      _yonakiProvider.editMyAccountData(newAccountData);
+      Navigator.pop(context);
+    });
   }
 }
