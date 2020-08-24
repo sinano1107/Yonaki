@@ -78,12 +78,7 @@ class _PostProgramScreenState extends State<PostProgramScreen> {
         appBar: AppBar(
           title: Text('心霊スポットを投稿'),
         ),
-        body: Stack(
-          children: [
-            _makeGoogleMap(),
-            Text(_selectedLocation.toString()),
-          ],
-        ),
+        body: _makeGoogleMap(),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.send),
           onPressed: () => showModalBottomSheet(
