@@ -317,19 +317,21 @@ class _TitleScreenState extends State<TitleScreen> {
     final File file = await FilePicker.getFile(
       type: FileType.image,
     );
-    if (defaultIcon) {
-      // 今デフォルトのアイコンかどうか
-      // そうだったらfalseにする
-      Map<String, dynamic> newAccountData = _yonakiProvider.myAccountData;
-      newAccountData['defaultIcon'] = false;
+    if (file != null) {
+      if (defaultIcon) {
+        // 今デフォルトのアイコンかどうか
+        // そうだったらfalseにする
+        Map<String, dynamic> newAccountData = _yonakiProvider.myAccountData;
+        newAccountData['defaultIcon'] = false;
+        await FirebaseService()
+            .editMyAccountData(_yonakiProvider.uid, newAccountData)
+            .then((_) => _yonakiProvider.editMyAccountData(newAccountData));
+      }
+      // 写真を変更・更新する
       await FirebaseService()
-          .editMyAccountData(_yonakiProvider.uid, newAccountData)
-          .then((_) => _yonakiProvider.editMyAccountData(newAccountData));
+          .putFile('users/${_yonakiProvider.uid}/icon', file)
+          .then((_) => _yonakiProvider.editMyIcon());
     }
-    // 写真を変更・更新する
-    await FirebaseService()
-        .putFile('users/${_yonakiProvider.uid}/icon', file)
-        .then((_) => _yonakiProvider.editMyIcon());
   }
 
   // アイコンをデフォルトに変更
